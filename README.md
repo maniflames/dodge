@@ -43,16 +43,17 @@ This is an overview of what the game looks like:
 This repo is part of the course CMGTPRG-08. One of the challenges was to include certain design patterns into the game. 
 
 ### Singleton
-*gameobject or threejs renderer*
+*GameObject*
 
 ### Polymorphism
 *I'll see lololol*
 
 ### Strategy
-*hahah*
+*being able to move the player y/n*
+*screen state*
 
 ### Observer
-*...*
+*level change (faster moving gameobjects)*
 
 ## Gameplay components
 The coolest thing about htis course is that you are allowed to make anything you want. Some extra's are rewared so here is the stuff that makes this game really coolw 😸.
