@@ -1,21 +1,24 @@
 /// <reference path="typings/index.d.ts" />
-import Game from './Game';
+import Game from './Game'
 
-export default class GameObject {
-    public mesh : THREE.Mesh;
+export default abstract class GameObject {
+    protected _mesh : THREE.Mesh
+    protected _geometry : THREE.Geometry
+
+    public getGeometry() : THREE.Geometry {
+        return this._geometry
+    }
+
     constructor( geometry : THREE.Geometry, material : THREE.Material) {
-        this.mesh = new THREE.Mesh(geometry, material)
+        this._geometry = geometry
+        this._mesh = new THREE.Mesh(geometry, material)
+
         //HMMM: this causes the paradox that makes it rather hard for me to create new gameObjects inside of the game
-        //I need to find a fix for this first (not sure if I should add the scene to static memory)
+        //(not sure if I should add the scene to static memory / move to a different object along with other setup THREE stuff)
         let game = Game.getGame(); 
-
-        game.getScene().add(this.mesh)
-        //TODO: move this to player class
-        game.setPlayer(this) 
+        game.getScene().add(this._mesh)
     }
 
-    public update() : void {
-        this.mesh.rotation.x += 0.01
-    }
+    public abstract update() : void 
 
 }
