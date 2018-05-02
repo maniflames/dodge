@@ -14,24 +14,8 @@ To run the game:
 ```
 npm start
 ```
-To modify the game and create your own version:
 
-```
-npm build
-```
-
-THIS IS NOT NEEDED IF WEBPACK-DEV-SERVER-WORKS!!!!!!
-
-To run the the game locally, host put files from the docs folder on a server.
-I like the http-server package, but XAMPP or MAMP will work just fine. 
-
-```
-npm install -g http-server
-cd docs
-http-server . 
-```
-
-Remove the .travis.yml 
+If you change anything within the ```/src``` code webpack will notice it, recompile the code & restart the server. 
 
 installation complete 🔥
 
@@ -46,7 +30,7 @@ This repo is part of the course CMGTPRG-08. One of the challenges was to include
 *GameObject*
 
 ### Polymorphism
-*I'll see lololol*
+*Updating gameobjects in gameloop*
 
 ### Strategy
 *being able to move the player y/n*

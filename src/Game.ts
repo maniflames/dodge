@@ -12,9 +12,7 @@ export default class Game {
     private _renderer : THREE.WebGLRenderer  = new THREE.WebGLRenderer()
     private _scene : THREE.Scene = new THREE.Scene() 
     private _camera : THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    private _player : Player | null
-    private _tunnel : Tunnel | null
-    private _wall : Wall | null
+    private _gameObjects : Array<GameObject> = new Array<GameObject>()
 
     public static getGame() : Game {
         return Game._object; 
@@ -26,11 +24,6 @@ export default class Game {
 
     private constructor() { 
         this._state = this.STATE_INIT
-        //cannot GameObjects here, cannot get Scene from Game because it doesn't exist yet
-        //but yeah singleton life 
-        this._player = null  
-        this._tunnel = null
-        this._wall = null
 
         let pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
         pointLight.position.set( 0, 0, 6 );
@@ -43,11 +36,12 @@ export default class Game {
         requestAnimationFrame(() => this._gameloop())
     } 
 
+    //this function could be a communication point for an external level class
+    //but I could use an observer pattern an notify the game about the new level 
+    //& about the objects that should be inserted or removed from the game
     private _init() {
+        this._gameObjects.push(new Player(), new Tunnel(), new Wall())
         this._state = this.STATE_NOT_INIT
-        this._player = new Player()
-        this._tunnel = new Tunnel()
-        this._wall = new Wall()
     }
 
     private _gameloop() {
@@ -55,17 +49,8 @@ export default class Game {
             this._init()
         }
 
-        //should prob just make an array with all gameobjects and call update
-       if(this._player){
-           this._player.update()
-        }
-
-        if(this._tunnel) {
-            this._tunnel.update()
-        }
-
-        if(this._wall){
-            this._wall.update()
+        for(let object of this._gameObjects){
+            object.update()
         }
            
         this._renderer.render(this._scene, this._camera)
