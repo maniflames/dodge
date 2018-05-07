@@ -5,7 +5,7 @@ import Tunnel from './Tunnel'
 import Wall from './Wall';
 
 export default class Game {
-    private static _object : Game = new Game()
+    private static _object : Game;
     private STATE_INIT : string = "init" //not static because the assignment of static values to non-static values
     private STATE_NOT_INIT : String = "something" //doesn't go right for some reason :/ 
     private _state : String | null
@@ -15,7 +15,11 @@ export default class Game {
     private _gameObjects : Array<GameObject> = new Array<GameObject>()
 
     public static getGame() : Game {
-        return Game._object; 
+        if(! Game._object){
+            Game._object = new Game(); 
+        }
+
+        return Game._object;         
     }
 
     public getScene() : THREE.Scene {
