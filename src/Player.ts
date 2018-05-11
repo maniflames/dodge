@@ -4,11 +4,10 @@ import Game from './Game'
 
 export default class Player extends GameObject {
     mouse : THREE.Vector2 = new THREE.Vector2()
-    game : Game = Game.getGame()
 
     constructor(){
-        super(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial())
-        this._mesh.position.z = this.game.getCamera().position.z - 10;
+        super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial())
+        this._mesh.position.z = this._game.getCamera().position.z - 10;
         window.addEventListener('mousemove', (e) => {this._traceMouse(e) })
     }
 
@@ -51,6 +50,7 @@ export default class Player extends GameObject {
 
         this._mesh.position.x = this.mouse.x * worldXEdge
         this._mesh.position.y = this.mouse.y * worldYEdge  
+
     }
 
     public update() : void {  

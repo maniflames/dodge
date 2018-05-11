@@ -30,6 +30,16 @@ export default class Game {
         return this._scene; 
     }
 
+    public removeGameObject(target : GameObject) : void {
+        for (let object of this._gameObjects) {
+            if(target === object){
+                let index = this._gameObjects.indexOf(target)
+                this._gameObjects.splice(index, 1)
+                target.remove()
+            }
+        }
+    }
+
     private constructor() { 
         this._state = this.STATE_INIT
 
