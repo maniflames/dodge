@@ -2,9 +2,9 @@
 import GameObject from './GameObject'
 
 export default class Wall extends GameObject {
-    _widthdrawing : boolean
-    _startPositionX : number = -15
-    _endPositionX : number
+    private _widthdrawing : boolean
+    private _startPositionX : number = -15
+    private _endPositionX : number
 
     constructor(){
         super(new THREE.BoxGeometry(10, 20, 1), new THREE.MeshLambertMaterial())

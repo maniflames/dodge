@@ -3,16 +3,18 @@ import GameObject from './GameObject'
 import Player from './Player'
 import Tunnel from './Tunnel'
 import Wall from './Wall';
+import Level from './Level';
 
 export default class Game {
     private static _object : Game;
     private STATE_INIT : string = "init" //not static because the assignment of static values to non-static values
-    private STATE_NOT_INIT : String = "something" //doesn't go right for some reason :/ 
-    private _state : String | null
+    private STATE_NOT_INIT : string = "something" //doesn't go right for some reason :/ 
+    private _state : string | null
     private _renderer : THREE.WebGLRenderer  = new THREE.WebGLRenderer()
     private _scene : THREE.Scene = new THREE.Scene() 
     private _camera : THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000) 
     private _gameObjects : Array<GameObject> = new Array<GameObject>()
+    private _level : Level | null
 
     public static getGame() : Game {
         if(! Game._object){
@@ -30,18 +32,9 @@ export default class Game {
         return this._scene; 
     }
 
-    public removeGameObject(target : GameObject) : void {
-        for (let object of this._gameObjects) {
-            if(target === object){
-                let index = this._gameObjects.indexOf(target)
-                this._gameObjects.splice(index, 1)
-                target.remove()
-            }
-        }
-    }
-
     private constructor() { 
         this._state = this.STATE_INIT
+        this._level = null
 
         let pointLight = new THREE.PointLight( 0xff0000, 1, 100 )
         pointLight.position.set( 0, 0, 50 )
@@ -54,11 +47,9 @@ export default class Game {
         requestAnimationFrame(() => this._gameloop())
     } 
 
-    //this function could be a communication point for an external level class
-    //but I could use an observer pattern an notify the game about the new level 
-    //& about the objects that should be inserted or removed from the game
     private _init() {
-        this._gameObjects.push(new Player(), new Tunnel(), new Wall())
+        this._gameObjects.push(new Player(), new Tunnel())
+        this._level = new Level(1)
         this._state = this.STATE_NOT_INIT
     }
 
@@ -67,11 +58,29 @@ export default class Game {
             this._init()
         }
 
+        if(this._level){
+            this._level.update()
+        }
+
         for(let object of this._gameObjects){
             object.update()
         }
            
         this._renderer.render(this._scene, this._camera)
         requestAnimationFrame(() => this._gameloop())
+    }
+
+    public addGameObject(object : GameObject) : void {
+        this._gameObjects.push(object)
+    }
+    
+    public removeGameObject(target : GameObject) : void {
+        for (let object of this._gameObjects) {
+            if(target === object){
+                let index = this._gameObjects.indexOf(target)
+                this._gameObjects.splice(index, 1)
+                target.remove()
+            }
+        }
     }
 }

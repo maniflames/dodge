@@ -3,7 +3,7 @@ import GameObject from './GameObject'
 import Game from './Game'
 
 export default class Player extends GameObject {
-    mouse : THREE.Vector2 = new THREE.Vector2()
+    private _mouse : THREE.Vector2 = new THREE.Vector2()
 
     constructor(){
         super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial())
@@ -16,8 +16,8 @@ export default class Player extends GameObject {
         //returns number between -1 & 1 representing position on screen 
         //where 0,0 is the middle
         //https://threejs.org/docs/#api/core/Raycaster
-        this.mouse.x = (e.x / window.innerWidth) * 2 - 1
-        this.mouse.y = - (e.y / window.innerHeight) * 2 + 1
+        this._mouse.x = (e.x / window.innerWidth) * 2 - 1
+        this._mouse.y = - (e.y / window.innerHeight) * 2 + 1
 
         //the whole positioning of the game is based on the tunnel which has a radius of 10
         //the edges (y) of the tunnel on the current z index of the player are not 100% on screen 
@@ -48,8 +48,8 @@ export default class Player extends GameObject {
             //exit game
         }
 
-        this._mesh.position.x = this.mouse.x * worldXEdge
-        this._mesh.position.y = this.mouse.y * worldYEdge  
+        this._mesh.position.x = this._mouse.x * worldXEdge
+        this._mesh.position.y = this._mouse.y * worldYEdge  
 
     }
 
