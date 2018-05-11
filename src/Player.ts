@@ -3,45 +3,54 @@ import GameObject from './GameObject'
 import Game from './Game'
 
 export default class Player extends GameObject {
-    mouse : THREE.Vector2 = new THREE.Vector2();
-    raycaster : THREE.Raycaster = new THREE.Raycaster(); 
+    mouse : THREE.Vector2 = new THREE.Vector2()
     game : Game = Game.getGame()
 
     constructor(){
         super(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial())
-        this._mesh.position.z = this.game.getCamera().position.z - 6
-    5;
-        window.addEventListener('mousemove', (e) => {this._traceMouse(e) }); 
+        this._mesh.position.z = this.game.getCamera().position.z - 10;
+        window.addEventListener('mousemove', (e) => {this._traceMouse(e) })
     }
 
     private _traceMouse(e : MouseEvent) : void {
-        console.log(e.x + " " + e.y);
+        //normalized mouse coordinates
+        //returns number between -1 & 1 representing position on screen 
+        //where 0,0 is the middle
+        //https://threejs.org/docs/#api/core/Raycaster
+        this.mouse.x = (e.x / window.innerWidth) * 2 - 1
+        this.mouse.y = - (e.y / window.innerHeight) * 2 + 1
 
-        // normalized mouse coordinates
-        // https://threejs.org/docs/#api/core/Raycaster
+        //the whole positioning of the game is based on the tunnel which has a radius of 10
+        //the edges (y) of the tunnel on the current z index of the player are not 100% on screen 
+        //the visibility of edges (x) of the tunnel depends on the width of the screen
+        //the corners of the screen are not 100% available because the edge of the tunnel cuts them of on the current z index of the player
+        let worldXEdge = 6
+        let worldYEdge = 6
 
-        // What I want to do is map canvas coordinates to world coordinates.
-        // Since I don't have to move with the depth z can be completely igmnored
-        // Everyting is based on the tunnel, which has a radius of 10 and is positioned at 0.0 with a rotation
-        // even though the radius is 10 the in screen mapping can differ depeding on the current camera - player distance & the current screen with/height the max is 10
-        // remember that the coordinate 10 is not on screen as well. the top  & bottom are closer than the sides of the tunnel (not sure why tbh, it's probably the presepective)
-        //0,0 of the browser is upperleft that should be in te middle
-        //(((width/height)/2) * 10)
-        let canvasToWorld = ((window.innerWidth/window.innerHeight)/2) * 7;
+        //I am still not sure why but a transformation of specifically the screen width has a huge impact on player movement
+        //it could be because of the calculations of the perspective camera since a higher width means that more of the world is shown to the player
+        //for a viewport where x < 900px there need to be smaller world edges
+        //NOTE: if I ever have some time left I could plot the desired edges of at certain viewport draw a graph and create a forumla for this
+        //viewports are way easier for now :3 
 
-        this.mouse.x = (e.x / window.innerWidth) * 2 - 1; 
-        this.mouse.y = - (e.y / window.innerHeight)  * 2 + 1;
+        //TODO: find a way to refactor this if possible
+        //not sure how yet, a switch only allows 1 value but there should be a prettier way out there to do this
+        if(window.innerWidth <= 900 && window.innerWidth > 600) {
+            worldXEdge = 5
+        } else if(window.innerWidth <= 600 && window.innerWidth > 500) {
+            worldXEdge = 3
+        } else if(window.innerWidth <= 500 && window.innerWidth > 400) {
+            worldXEdge = 2
+        } else if(window.innerWidth <= 400 && window.innerWidth > 299) {
+            worldXEdge = 1.5
+        } else if (window.innerWidth < 300) {
+            //TODO: 
+            //device not supported, screen too small
+            //exit game
+        }
 
-        // console.log(this.mouse.x + " " + this.mouse.y); 
-
-
-        this._mesh.position.x = this.mouse.x * canvasToWorld; 
-        this._mesh.position.y = this.mouse.y * ((window.innerWidth/window.innerHeight)/2) * 3.8; 
-
-        // this._mesh.position.x = 2.2
-        // this._mesh.position.y = 0
-
-        // this.raycaster.setFromCamera(this.mouse, this.game.getCamera())
+        this._mesh.position.x = this.mouse.x * worldXEdge
+        this._mesh.position.y = this.mouse.y * worldYEdge  
     }
 
     public update() : void {  

@@ -16,7 +16,7 @@ export default class Game {
 
     public static getGame() : Game {
         if(! Game._object){
-            Game._object = new Game(); 
+            Game._object = new Game()
         }
 
         return Game._object;         
@@ -33,9 +33,9 @@ export default class Game {
     private constructor() { 
         this._state = this.STATE_INIT
 
-        let pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
-        pointLight.position.set( 0, 0, 50 );
-        this._scene.add( pointLight );  
+        let pointLight = new THREE.PointLight( 0xff0000, 1, 100 )
+        pointLight.position.set( 0, 0, 50 )
+        this._scene.add( pointLight ) 
 
         this._camera.position.z = 50
         this._renderer.setSize(window.innerWidth, window.innerHeight)
