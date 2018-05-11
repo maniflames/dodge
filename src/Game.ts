@@ -11,7 +11,7 @@ export default class Game {
     private _state : String | null
     private _renderer : THREE.WebGLRenderer  = new THREE.WebGLRenderer()
     private _scene : THREE.Scene = new THREE.Scene() 
-    private _camera : THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    private _camera : THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000) 
     private _gameObjects : Array<GameObject> = new Array<GameObject>()
 
     public static getGame() : Game {
@@ -22,6 +22,10 @@ export default class Game {
         return Game._object;         
     }
 
+    public getCamera() : THREE.Camera {
+        return this._camera;
+    }
+
     public getScene() : THREE.Scene {
         return this._scene; 
     }
@@ -30,10 +34,10 @@ export default class Game {
         this._state = this.STATE_INIT
 
         let pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
-        pointLight.position.set( 0, 0, 6 );
+        pointLight.position.set( 0, 0, 50 );
         this._scene.add( pointLight );  
 
-        this._camera.position.z = 5
+        this._camera.position.z = 50
         this._renderer.setSize(window.innerWidth, window.innerHeight)
         document.body.appendChild(this._renderer.domElement)
 

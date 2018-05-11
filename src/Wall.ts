@@ -4,17 +4,17 @@ import GameObject from './GameObject'
 export default class Wall extends GameObject {
   
     constructor(){
-        super(new THREE.BoxGeometry(7, 15, 1), new THREE.MeshLambertMaterial())
+        super(new THREE.BoxGeometry(10, 20, 1), new THREE.MeshLambertMaterial())
         this._toStartPosition()
     }
 
     private _toStartPosition() : void {
-        this._mesh.position.set(-10, 0, -20)
+        this._mesh.position.set(-15, 0, -20)
     }
 
     private _depthAnimation() : void {
-        if(this._mesh.position.z < 6){
-            this._mesh.position.z += 0.03
+        if(this._mesh.position.z < 50){
+            this._mesh.position.z += 0.1
         } else {
             this._toStartPosition()
         }
