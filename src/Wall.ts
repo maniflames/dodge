@@ -1,46 +1,36 @@
 /// <reference path="typings/index.d.ts" />
 import GameObject from './GameObject'
+import WallAnimation from './WallAnimation'
+import WallAnimationLeft from './WallAnimationLeft' //this will eventually move to level 
+import WallAnimationRight from './WallAnimationRight' //this will eventually move to level since level 
 
 export default class Wall extends GameObject {
-    private _widthdrawing : boolean
-    private _startPositionX : number = -15
-    private _endPositionX : number
+    private _maxDistanceFromCamera : number
+    private _animation : WallAnimation
 
-    constructor(){
-        super(new THREE.BoxGeometry(10, 20, 1), new THREE.MeshLambertMaterial())
-        this._mesh.position.set(this._startPositionX, 0, -20)
-        this._endPositionX = -5
-        this._widthdrawing = false
+    public getPosition() : THREE.Vector3 {
+        return this._mesh.position
     }
 
-    private _depthAnimation() : void {
+    public getMaxDistance() : number {
+        return this._maxDistanceFromCamera
+    }
+
+    //this is where the strategy is passed
+    constructor(){
+        super(new THREE.BoxGeometry(10, 20, 1), new THREE.MeshLambertMaterial())
         //TODO: decide
         //should I give access to the player position (z) so there are no mistakes that can be made?
         //(if you compare this with a distance greater that 10 a wall will never hit the player)
-        if(this._mesh.position.z < this._game.getCamera().position.z - 8){
-            this._mesh.position.z += 0.1
-        } else {
-            this._widthdrawing = true
-            this._widthdrawAnimation()
-        }
+        this._maxDistanceFromCamera = this._game.getCamera().position.z - 8
+
+        // this will be put into level since all logic based on spawning should be decided over there too
+        Math.random() > 0.5 ? this._animation = new WallAnimationRight() : this._animation = new WallAnimationLeft()
+        
     }
 
-    private _insertAnimation() : void {
-        if(this._mesh.position.x <= this._endPositionX && this._widthdrawing == false){
-            this._mesh.position.x += 0.05 
-        } 
-    }
 
-    private _widthdrawAnimation() : void {
-        this._mesh.position.x -= 0.2
-
-        if(this._mesh.position.x < this._startPositionX){
-            this._game.removeGameObject(this)
-        }    
-    }
-
-    update() : void {
-        this._insertAnimation()
-        this._depthAnimation()
+    public update() : void {
+        this._animation.update(this)
     }
 }
