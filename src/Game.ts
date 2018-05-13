@@ -64,6 +64,21 @@ export default class Game {
 
         for(let object of this._gameObjects){
             object.update()
+            
+            //Logic behind collision should be refactored to a seperate function
+            if(object instanceof Player) {
+                for (let otherObject of this._gameObjects) {
+                    if(otherObject instanceof Wall) {
+
+                        let boxObj = object.getBoundingBox()
+                        let boxOthObj = otherObject.getBoundingBox()
+                    
+                        if(boxObj.intersectsBox(boxOthObj)) {           
+                            object.die()
+                        }
+                    }
+                }     
+            }
         }
            
         this._renderer.render(this._scene, this._camera)

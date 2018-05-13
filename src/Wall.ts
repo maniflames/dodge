@@ -26,6 +26,7 @@ export default class Wall extends GameObject {
 
 
     public update() : void {
+        super.update()
         this._animation.update(this)
     }
 }

@@ -50,10 +50,14 @@ export default class Player extends GameObject {
 
         this._mesh.position.x = this._mouse.x * worldXEdge
         this._mesh.position.y = this._mouse.y * worldYEdge  
+    }
 
+    public die() : void {
+        this.remove()
+        //TODO: call gameover or something like that ...
     }
 
     public update() : void {  
-        this._mesh.rotation.x += 0.01 
+        super.update()
     }
 }
