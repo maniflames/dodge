@@ -1,6 +1,9 @@
 /// <reference path="typings/index.d.ts" />
 import Game from './Game'
 import Wall from './Wall'
+import WallAnimation from './WallAnimation'
+import WallAnimationLeft from './WallAnimationLeft'
+import WallAnimationRight from './WallAnimationRight'
 
 //a level only takes care of how and which objects are spawned into the game 
 //you should be able to give a difficulty to a level and the level will act based on difficulty
@@ -20,7 +23,9 @@ export default class Level {
     }
 
     private _addWall() : void {
-        this._game.addGameObject(new Wall)
+        let animation : WallAnimation 
+        Math.random() > 0.5 ? animation = new WallAnimationRight() : animation = new WallAnimationLeft()
+        this._game.addGameObject(new Wall(animation))
     }
 
     public update() : void {
