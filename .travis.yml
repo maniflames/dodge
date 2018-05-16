@@ -3,6 +3,8 @@ node_js:
   - "node"
 
 addons:
+  ssh_known_hosts:
+    - ${HOST}
   apt:
     update: true 
     packages:
