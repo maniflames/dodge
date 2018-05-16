@@ -20,6 +20,6 @@ ssh -T travisci@bitesized.xyz <<EOF
   cd $DEPLOY_DIR
   ls
   echo $PASS | sudo -S git pull
-  echo $PASS | sudo -S docker-compose build 
-  echo $PASS | sudo -S docker-compose up -d
+  echo $PASS | sudo -S docker-compose build --no-cache
+  echo $PASS | sudo -S docker-compose restart
 EOF
