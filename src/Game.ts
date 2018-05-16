@@ -33,6 +33,7 @@ export default class Game {
     }
 
     private constructor() { 
+        console.count("game construct!")
         this._state = this.STATE_INIT
         this._level = null
 

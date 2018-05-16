@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "http-server ./dist", 
+    "dev": "webpack-dev-server --open",
     "watch": "webpack --watch",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
