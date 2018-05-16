@@ -22,5 +22,6 @@ ssh -T travisci@bitesized.xyz <<EOF
   echo $PASS | sudo -S git pull
   echo $PASS | sudo -S docker-compose stop
   echo $PASS | sudo -S docker-compose rm -f
+  echo $PASS | sudo -S docker-compose build --no-cache
   echo $PASS | sudo -S docker-compose up -d
 EOF
