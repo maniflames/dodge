@@ -18,6 +18,8 @@ ssh-add .travis/id_rsa # Add the private key to SSH
 
 ssh -T travisci@bitesized.xyz <<EOF
   cd $DEPLOY_DIR
-  git pull
-  echo $PASS | sudo -S docker-compose build && docker-compose up -d
+  ls
+  echo $PASS | sudo -S git pull
+  echo $PASS | sudo -S docker-compose build 
+  echo $PASS | sudo -S docker-compose up -d
 EOF
