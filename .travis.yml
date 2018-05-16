@@ -1,6 +1,6 @@
 language: node_js
 version: 
-  - "stable"
+  - "node"
 
 addons:
   apt:
@@ -11,5 +11,3 @@ before_script:
 - chmod +x ./deploy.sh
 
 script: ./deploy.sh
-
-sudo: required
