@@ -17,5 +17,7 @@ chmod 600 .travis/id_rsa # Allow read access to the private key
 ssh-add .travis/id_rsa # Add the private key to SSH
 
 ssh -T travisci@bitesized.xyz <<EOF
-  echo "Travis got tha power" >> hello.txt
+  cd $DEPLOY_DIR
+  git pull
+  echo $PASS | sudo -S docker-compose build && docker-compose up -d
 EOF
