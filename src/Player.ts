@@ -6,8 +6,9 @@ export default class Player extends GameObject {
     private _mouse : THREE.Vector2 = new THREE.Vector2()
 
     constructor(){
-        super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial())
+        super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({color: 0xff0000}))
         this._mesh.position.z = this._game.getCamera().position.z - 10;
+        this._mesh
         window.addEventListener('mousemove', (e) => {this._traceMouse(e) })
     }
 
