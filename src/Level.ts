@@ -13,10 +13,6 @@ export default class Level {
     private _timeHistory : number = 0
     private _game : Game = Game.getGame()
 
-    public nextLevel() : void {
-        this._difficulty++
-    }
-
     constructor(difficulty : number){
         this._difficulty = difficulty
         this._timer.start()
@@ -26,6 +22,10 @@ export default class Level {
         let animation : WallAnimation 
         Math.random() > 0.5 ? animation = new WallAnimationRight() : animation = new WallAnimationLeft()
         this._game.addGameObject(new Wall(animation))
+    }
+
+    public nextLevel() : void {
+        this._difficulty++
     }
 
     public update() : void {
