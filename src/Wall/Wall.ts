@@ -1,6 +1,6 @@
-/// <reference path="typings/index.d.ts" />
-import GameObject from './GameObject'
-import WallAnimation from './WallAnimation'
+/// <reference path="../typings/index.d.ts" />
+import GameObject from '../GameObject'
+import WallAnimation from './Animations/WallAnimation'
 
 export default class Wall extends GameObject {
     private _maxDistanceFromCamera : number

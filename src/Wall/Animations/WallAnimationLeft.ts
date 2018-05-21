@@ -1,6 +1,6 @@
-import Game from './Game'
+import Game from '../../Game'
 import WallAnimation from './WallAnimation'
-import Wall from './Wall'
+import Wall from '../Wall'
 
 export default class WallAnimationLeft implements WallAnimation {
     private _widthdrawing : boolean = false

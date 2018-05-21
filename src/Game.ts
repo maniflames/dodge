@@ -2,12 +2,12 @@
 import GameObject from './GameObject'
 import Player from './Player'
 import Tunnel from './Tunnel'
-import Wall from './Wall';
+import Wall from './Wall/Wall';
 import Level from './Level';
 
 export default class Game {
     private static _object : Game;
-    private STATE_INIT : string = "init" //not static because the assignment of static values to non-static values
+    private STATE_INIT : string = "init" //not static because the assignment
     private STATE_NOT_INIT : string = "something" //doesn't go right for some reason :/ 
     private _state : string | null
     private _renderer : THREE.WebGLRenderer  = new THREE.WebGLRenderer()

@@ -1,6 +1,6 @@
-import Game from './Game'
+import Game from '../../Game'
 import WallAnimation from './WallAnimation'
-import Wall from './Wall'
+import Wall from '../Wall'
 
 //Right now WallAnimationLeft & WallAnimationRight contain pretty much duplicate code 
 //basically most is the same but positives, negatives, greater than and smaller than all switched 

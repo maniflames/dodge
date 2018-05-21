@@ -12,6 +12,11 @@ export default class Player extends GameObject {
         window.addEventListener('mousemove', (e) => {this._traceMouse(e) })
     }
 
+    //NOTE: I recently found an issue that discussed the math of finding the FOV
+    //Using these calculations might enable me to place the player directly under the mouse no matter how big the screen
+    //This would mean I have to implement collision between the player & the tunnel
+    //Current calculations make it impossible to reach the tunnel in the first place
+    //https://github.com/mrdoob/three.js/issues/1239
     private _traceMouse(e : MouseEvent) : void {
         //normalized mouse coordinates
         //returns number between -1 & 1 representing position on screen 
