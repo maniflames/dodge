@@ -4,12 +4,13 @@ import Game from './Game'
 
 export default class Player extends GameObject {
     private _mouse : THREE.Vector2 = new THREE.Vector2()
+    private _trackCb = (e : MouseEvent) => {this._traceMouse(e) }
 
     constructor(){
         super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({color: 0xff00ff}))
         this._mesh.position.z = this._game.getCamera().position.z - 10;
-        this._mesh
-        window.addEventListener('mousemove', (e) => {this._traceMouse(e) })
+        //TODO: only listen when the gamestate is STATE_PLAYING
+        window.addEventListener('mousemove', this._trackCb)
     }
 
     //NOTE: I recently found an issue that discussed the math of finding the FOV
@@ -59,8 +60,9 @@ export default class Player extends GameObject {
     }
 
     public die() : void {
+        window.removeEventListener('mousemove', this._trackCb)
         this.remove()
-        //TODO: call gameover or something like that ...
+        this._game.gameOver()
     }
 
     public update() : void {  

@@ -2,22 +2,29 @@
 import GameObject from './GameObject'
 import Player from './Player'
 import Tunnel from './Tunnel'
-import Wall from './Wall/Wall';
-import Level from './Level';
+import Wall from './Wall/Wall'
+import Level from './Level'
+import Screen from './Screens/Screen'
+import StartScreen from './Screens/StartScreen'
+import EndScreen from './Screens/EndScreen'
 
 export default class Game {
     private static _object : Game;
     private STATE_INIT : string = "init" //not static because the assignment
-    private STATE_NOT_INIT : string = "something" //doesn't go right for some reason :/ 
+    private STATE_INIT_DONE : string = "init_done" //happens in game constructor as well
+    private STATE_PLAYING : string = "playing" 
+    private STATE_PAUSE : string = "pause"
+    private STATE_OVER : string = "game_over"
     private _state : string | null
     private _renderer : THREE.WebGLRenderer  = new THREE.WebGLRenderer()
     private _scene : THREE.Scene = new THREE.Scene() 
     private _camera : THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000) 
     private _gameObjects : Array<GameObject> = new Array<GameObject>()
     private _level : Level | null
+    private _screen : Screen | null
 
     public static getGame() : Game {
-        if(! Game._object){
+        if(!Game._object){
             Game._object = new Game()
         }
 
@@ -36,22 +43,23 @@ export default class Game {
         console.count("game construct!")
         this._state = this.STATE_INIT
         this._level = null
+        this._screen = null
 
         let pointLight = new THREE.PointLight( 0xff0000, 1, 100 )
         pointLight.position.set( 0, 0, 50 )
         this._scene.add( pointLight ) 
 
         this._camera.position.z = 50
-        this._renderer.setSize(window.innerWidth, window.innerHeight)
+        this._renderer.setSize(window.innerWidth, window.innerHeight )
         document.body.appendChild(this._renderer.domElement)
 
         requestAnimationFrame(() => this._gameloop())
     } 
 
     private _init() {
-        this._gameObjects.push(new Player(), new Tunnel())
-        this._level = new Level(1)
-        this._state = this.STATE_NOT_INIT
+        this._screen = new StartScreen()
+        this.addGameObject(new Tunnel())
+        this._state = this.STATE_INIT_DONE
     }
 
     private _gameloop() {
@@ -59,14 +67,20 @@ export default class Game {
             this._init()
         }
 
-        if(this._level){
+        //TODO: check if the game the game state is "playing.." 
+        //this would be cool because the only thing that has to happen is that this 
+        //and the objects in the gameobjects array will stop during pause
+        if(this._level && this._state === this.STATE_PLAYING){
             this._level.update()
         }
 
         for(let object of this._gameObjects){
-            object.update()
-            
+            if(this._state === this.STATE_PLAYING){
+                object.update()
+            }
+                     
             //Logic behind collision should be refactored to a seperate function
+            //TODO: refactor into something pretty
             if(object instanceof Player) {
                 for (let otherObject of this._gameObjects) {
                     if(otherObject instanceof Wall) {
@@ -84,6 +98,23 @@ export default class Game {
            
         this._renderer.render(this._scene, this._camera)
         requestAnimationFrame(() => this._gameloop())
+    }
+
+    public playGame() {
+        this.addGameObject(new Player())
+        this._level = new Level(1)
+        this._state = this.STATE_PLAYING
+    }
+
+    //TODO: checkout why walls aren't always removed properly
+    public gameOver() {
+        this._state = this.STATE_OVER
+        for(let object of this._gameObjects) {
+            if(object instanceof Wall){
+                this.removeGameObject(object)
+            }
+        }
+        this._screen = new EndScreen()
     }
 
     public addGameObject(object : GameObject) : void {

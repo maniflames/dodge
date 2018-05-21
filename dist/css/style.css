@@ -1,0 +1,28 @@
+body {
+    overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0; 
+    left: 0;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background: #000000; 
+    opacity: 0.4;
+}
+
+.btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+}
