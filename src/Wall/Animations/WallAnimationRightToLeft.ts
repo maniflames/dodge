@@ -1,12 +1,13 @@
 import Game from '../../Game'
-import WallAnimation from './WallAnimation'
 import Wall from '../Wall'
+import WallAnimationLeft from './WallAnimationLeft'
+import WallAnimation from './WallAnimation'
 
-export default class WallAnimationLeft implements WallAnimation {
+export default class WallAnimationRightToLeft implements WallAnimation {
     private _widthdrawing: boolean = false
     private _init: boolean = true
     private _game: Game = Game.getGame()
-    private _startPositionX: number = -15
+    private _startPositionX: number = 15
     private _endPositionX: number = -6
 
     public depthAnimation(wall: Wall): void {
@@ -28,8 +29,8 @@ export default class WallAnimationLeft implements WallAnimation {
             this._init = false
         }
 
-        if (position.x <= this._endPositionX && this._widthdrawing == false) {
-            position.x += 0.05
+        if (position.x >= this._endPositionX && this._widthdrawing == false) {
+            position.x -= 0.05
         }
     }
 
@@ -38,6 +39,7 @@ export default class WallAnimationLeft implements WallAnimation {
 
         position.x -= 0.2
 
+        // TODO: It doesn't animate; just jumps out of existence. I wonder what's wrong?
         if (position.x < this._startPositionX) {
             this._game.removeGameObject(wall)
         }
