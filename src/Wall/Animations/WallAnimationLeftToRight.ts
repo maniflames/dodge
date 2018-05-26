@@ -1,13 +1,14 @@
 import Game from '../../Game'
-import WallAnimation from './WallAnimation'
 import Wall from '../Wall'
+import WallAnimationLeft from './WallAnimationLeft'
+import WallAnimation from './WallAnimation'
 
-export default class WallAnimationLeft implements WallAnimation {
+export default class WallAnimationLeftToRight implements WallAnimation {
     private _widthdrawing: boolean = false
     private _init: boolean = true
     private _game: Game = Game.getGame()
     private _startPositionX: number = -15
-    private _endPositionX: number = -6
+    private _endPositionX: number = 6
 
     public depthAnimation(wall: Wall): void {
         let position = wall.getPosition()
@@ -36,7 +37,7 @@ export default class WallAnimationLeft implements WallAnimation {
     public widthdrawAnimation(wall: Wall): void {
         let position = wall.getPosition()
 
-        position.x -= 0.2
+        position.x += 0.2
 
         if (position.x < this._startPositionX) {
             this._game.removeGameObject(wall)

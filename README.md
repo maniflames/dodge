@@ -15,16 +15,16 @@ To run the game:
 npm start
 ```
 
-If you change anything within the ```/src``` code webpack will notice it, recompile the code & restart the server. 
+If you change anything within the ```/src``` code, webpack will notice it and will recompile the code & restart the server for you. 
 
-installation complete 🔥
+Installation complete 🔥!
 
 ## UML
 This is an overview of what the game looks like: 
 *insert UML*
 
-##Design Patterns
-This repo is part of the course CMGTPRG-08. One of the challenges was to include certain design patterns into the game. 
+## Design Patterns
+This repo is part of the course `CMGTPRG-08`. One of the challenges was to include certain design patterns into the game. 
 
 ### Singleton
 *GameObject*
@@ -40,7 +40,7 @@ This repo is part of the course CMGTPRG-08. One of the challenges was to include
 *level change (faster moving gameobjects)*
 
 ## Gameplay components
-The coolest thing about htis course is that you are allowed to make anything you want. Some extra's are rewared so here is the stuff that makes this game really coolw 😸.
+The coolest thing about this course is that you are allowed to make anything you want. Some extra's are rewards so here is the stuff that makes this game really cool 😸.
 
 ### Canvas 
 Even though I do use DOM elements for the menus, the actual game is build inside of a canvas. 
