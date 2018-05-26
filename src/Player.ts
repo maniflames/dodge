@@ -3,11 +3,11 @@ import GameObject from './GameObject'
 import Game from './Game'
 
 export default class Player extends GameObject {
-    private _mouse : THREE.Vector2 = new THREE.Vector2()
-    private _trackCb = (e : MouseEvent) => {this._traceMouse(e) }
+    private _mouse: THREE.Vector2 = new THREE.Vector2()
+    private _trackCb = (e: MouseEvent) => { this._traceMouse(e) }
 
-    constructor(){
-        super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({color: 0xff00ff}))
+    constructor() {
+        super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({ color: 0x9cb3d8 }))
         this._mesh.position.z = this._game.getCamera().position.z - 10;
         //TODO: only listen when the gamestate is STATE_PLAYING
         window.addEventListener('mousemove', this._trackCb)
@@ -18,7 +18,7 @@ export default class Player extends GameObject {
     //This would mean I have to implement collision between the player & the tunnel
     //Current calculations make it impossible to reach the tunnel in the first place
     //https://github.com/mrdoob/three.js/issues/1239
-    private _traceMouse(e : MouseEvent) : void {
+    private _traceMouse(e: MouseEvent): void {
         //normalized mouse coordinates
         //returns number between -1 & 1 representing position on screen 
         //where 0,0 is the middle
@@ -41,13 +41,13 @@ export default class Player extends GameObject {
 
         //TODO: find a way to refactor this if possible
         //not sure how yet, a switch only allows 1 value but there should be a prettier way out there to do this
-        if(window.innerWidth <= 900 && window.innerWidth > 600) {
+        if (window.innerWidth <= 900 && window.innerWidth > 600) {
             worldXEdge = 5
-        } else if(window.innerWidth <= 600 && window.innerWidth > 500) {
+        } else if (window.innerWidth <= 600 && window.innerWidth > 500) {
             worldXEdge = 3
-        } else if(window.innerWidth <= 500 && window.innerWidth > 400) {
+        } else if (window.innerWidth <= 500 && window.innerWidth > 400) {
             worldXEdge = 2
-        } else if(window.innerWidth <= 400 && window.innerWidth > 299) {
+        } else if (window.innerWidth <= 400 && window.innerWidth > 299) {
             worldXEdge = 1.5
         } else if (window.innerWidth < 300) {
             //TODO: 
@@ -56,16 +56,16 @@ export default class Player extends GameObject {
         }
 
         this._mesh.position.x = this._mouse.x * worldXEdge
-        this._mesh.position.y = this._mouse.y * worldYEdge  
+        this._mesh.position.y = this._mouse.y * worldYEdge
     }
 
-    public die() : void {
+    public die(): void {
         window.removeEventListener('mousemove', this._trackCb)
         this.remove()
         this._game.gameOver()
     }
 
-    public update() : void {  
+    public update(): void {
         super.update()
     }
 }

@@ -14,6 +14,7 @@ export default class Level {
     private _timer: THREE.Clock = new THREE.Clock(false)
     private _timeHistory: number = 0
     private _game: Game = Game.getGame()
+    private _score: number = 0
 
     constructor(difficulty: number) {
         this._difficulty = difficulty
@@ -60,6 +61,10 @@ export default class Level {
         if (roundedTime % 3 == 0 && roundedTime != this._timeHistory) {
             this._timeHistory = roundedTime
             this._addWall()
+            if (this._game.scoreDisplay) {
+                this._game.scoreDisplay.visible = true
+                this._game.scoreDisplay.score = this._score++
+            }
         }
     }
 

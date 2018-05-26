@@ -26,3 +26,12 @@ canvas {
     height: 40px;
     border-radius: 5px;
 }
+
+.display {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-size: 2em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

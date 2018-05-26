@@ -7,6 +7,7 @@ import Level from './Level'
 import Screen from './Screens/Screen'
 import StartScreen from './Screens/StartScreen'
 import EndScreen from './Screens/EndScreen'
+import ScoreDisplay from './ScoreDisplay';
 
 export default class Game {
     private static _object: Game;
@@ -22,6 +23,7 @@ export default class Game {
     private _gameObjects: Array<GameObject> = new Array<GameObject>()
     private _level: Level | null
     private _screen: Screen | null
+    private _scoreDisplay: ScoreDisplay | null
 
     public static getGame(): Game {
         if (!Game._object) {
@@ -30,6 +32,8 @@ export default class Game {
 
         return Game._object;
     }
+
+    public get scoreDisplay() { return this._scoreDisplay }
 
     public getCamera(): THREE.Camera {
         return this._camera;
@@ -44,8 +48,10 @@ export default class Game {
         this._state = this.STATE_INIT
         this._level = null
         this._screen = null
+        this._scoreDisplay = null
 
-        let pointLight = new THREE.PointLight(0xff0000, 1, 100)
+        // let pointLight = new THREE.PointLight(0xff0000, 1, 100)
+        const pointLight = new THREE.PointLight(0xff0000, 1, 100, 2);
         pointLight.position.set(0, 0, 50)
         this._scene.add(pointLight)
 
@@ -58,6 +64,7 @@ export default class Game {
 
     private _init() {
         this._screen = new StartScreen()
+        this._scoreDisplay = new ScoreDisplay()
         this.addGameObject(new Tunnel())
         this._state = this.STATE_INIT_DONE
     }
