@@ -1,4 +1,4 @@
-/// <reference path="../typings/index.d.ts" />
+/// <reference path="../../typings/index.d.ts" />
 import GameObject from '../GameObject'
 import WallAnimation from './Animations/WallAnimation'
 

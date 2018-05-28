@@ -1,5 +1,5 @@
-/// <reference path="typings/index.d.ts" />
-import Game from './Game'
+/// <reference path="../typings/index.d.ts" />
+import Game from '../Game'
 
 export default abstract class GameObject {
     protected _mesh : THREE.Mesh

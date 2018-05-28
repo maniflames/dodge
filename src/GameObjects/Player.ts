@@ -1,6 +1,6 @@
-/// <reference path="typings/index.d.ts" />
+/// <reference path="../typings/index.d.ts" />
 import GameObject from './GameObject'
-import Game from './Game'
+import Game from '../Game'
 
 export default class Player extends GameObject {
     private _mouse: THREE.Vector2 = new THREE.Vector2()
