@@ -116,11 +116,13 @@ export default class Game {
     //TODO: checkout why walls aren't always removed properly
     public gameOver() {
         this._state = this.STATE_OVER
-        for (let object of this._gameObjects) {
+        for (let object of this._gameObjects) { 
             if (object instanceof Wall) {
                 this.removeGameObject(object)
             }
         }
+
+        console.log(this._gameObjects); 
         this._screen = new EndScreen()
     }
 

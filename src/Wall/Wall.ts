@@ -24,7 +24,6 @@ export default class Wall extends GameObject {
         this._maxDistanceFromCamera = this._game.getCamera().position.z - 8
     }
 
-
     public update() : void {
         super.update()
         this._animation.update(this)
