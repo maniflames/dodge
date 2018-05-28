@@ -2,6 +2,8 @@
 import GameObject from '../GameObject'
 import WallAnimation from './Animations/WallAnimation'
 
+//TODO: change the way you pass the strategy to the default way and at a default 'still' animation 
+//      passing the wall to the animation will be a lot less hacky and is the correct way of using the pattern anyway
 export default class Wall extends GameObject {
     private _maxDistanceFromCamera : number
     private _animation : WallAnimation

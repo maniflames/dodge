@@ -1,11 +1,11 @@
 /// <reference path="typings/index.d.ts" />
 import Game from './Game'
-import Wall from './Wall/Wall'
-import WallAnimation from './Wall/Animations/WallAnimation'
-import WallAnimationLeft from './Wall/Animations/WallAnimationLeft'
-import WallAnimationRight from './Wall/Animations/WallAnimationRight'
-import WallAnimationLeftToRight from './Wall/Animations/WallAnimationLeftToRight'
-import WallAnimationRightToLeft from './Wall/Animations/WallAnimationRightToLeft';
+import Wall from './GameObjects/Wall/Wall'
+import WallAnimation from './GameObjects/Wall/Animations/WallAnimation'
+import WallAnimationLeft from './GameObjects/Wall/Animations/WallAnimationLeft'
+import WallAnimationRight from './GameObjects/Wall/Animations/WallAnimationRight'
+import WallAnimationLeftToRight from './GameObjects/Wall/Animations/WallAnimationLeftToRight'
+import WallAnimationRightToLeft from './GameObjects/Wall/Animations/WallAnimationRightToLeft';
 
 //a level only takes care of how and which objects are spawned into the game 
 //you should be able to give a difficulty to a level and the level will act based on difficulty

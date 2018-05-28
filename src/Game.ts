@@ -1,13 +1,13 @@
 /// <reference path="typings/index.d.ts" />
-import GameObject from './GameObject'
-import Player from './Player'
-import Tunnel from './Tunnel'
-import Wall from './Wall/Wall'
+import GameObject from './GameObjects/GameObject'
+import Player from './GameObjects/Player'
+import Tunnel from './GameObjects/Tunnel'
+import Wall from './GameObjects/Wall/Wall'
 import Level from './Level'
-import Screen from './Screens/Screen'
-import StartScreen from './Screens/StartScreen'
-import EndScreen from './Screens/EndScreen'
-import ScoreDisplay from './ScoreDisplay';
+import Screen from './UI/Screen'
+import StartScreen from './UI/StartScreen'
+import EndScreen from './UI/EndScreen'
+import ScoreDisplay from './UI/ScoreDisplay'
 
 export default class Game {
     private static _object: Game;

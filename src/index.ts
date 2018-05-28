@@ -1,5 +1,5 @@
 import Game from './Game'
-import GameObject from './GameObject'
+import GameObject from './GameObjects/GameObject'
 
 window.addEventListener('load', () => {
     console.log('Page is loaded!');
