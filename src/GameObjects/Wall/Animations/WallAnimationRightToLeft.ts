@@ -41,7 +41,7 @@ export default class WallAnimationRightToLeft implements WallAnimation {
 
         // TODO: It doesn't animate; just jumps out of existence. I wonder what's wrong?
         if (position.x < this._startPositionX) {
-            this._game.removeGameObject(wall)
+            wall.remove(); 
         }
     }
 

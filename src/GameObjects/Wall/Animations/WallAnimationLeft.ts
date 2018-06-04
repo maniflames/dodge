@@ -39,7 +39,7 @@ export default class WallAnimationLeft implements WallAnimation {
         position.x -= 0.2
 
         if (position.x < this._startPositionX) {
-            this._game.removeGameObject(wall)
+            wall.remove(); 
         }
     }
 

@@ -30,7 +30,6 @@ export default abstract class GameObject {
     public remove() : void {
         this._game.getScene().remove(this._mesh)
         this._game.removeGameObject(this)
-        console.count('removed object')
     }
 
     public getPosition() : THREE.Vector3 {
