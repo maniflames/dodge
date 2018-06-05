@@ -2,24 +2,29 @@
 import GameObject from '../GameObject'
 import WallAnimation from './Animations/WallAnimation'
 
-//TODO: change the way you pass the strategy to the default way and at a default 'still' animation 
-//      passing the wall to the animation will be a lot less hacky and is the correct way of using the pattern anyway
 export default class Wall extends GameObject {
     private _maxDistanceFromCamera : number
-    private _animation : WallAnimation
+    private _animation : WallAnimation | null
 
-    public getPosition() : THREE.Vector3 {
+    public get animation() : WallAnimation | null {
+        return this._animation
+    }
+
+    public set animation(animation : WallAnimation | null) {
+        this._animation = animation
+    }
+
+    public get position() : THREE.Vector3 {
         return this._mesh.position
     }
 
-    public getMaxDistance() : number {
+    public get maxDistance() : number {
         return this._maxDistanceFromCamera
     }
 
-    //this is where the strategy is passed
-    constructor(animation : WallAnimation){
+    constructor(){
         super(new THREE.BoxGeometry(10, 20, 1), new THREE.MeshLambertMaterial())
-        this._animation = animation
+        this._animation = null;
         //TODO: decide
         //should I give access to the player position (z) so there are no mistakes that can be made?
         //(if you compare this with a distance greater that 10 a wall will never hit the player)
@@ -29,6 +34,8 @@ export default class Wall extends GameObject {
     public update() : void {
         super.update()
         //TODO: Change this!!
-        this._animation.update(this)
+        if(this._animation){
+            this._animation.update()
+        }  
     }
 }

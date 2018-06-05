@@ -3,48 +3,43 @@ import WallAnimation from './WallAnimation'
 import Wall from '../Wall'
 
 export default class WallAnimationLeft implements WallAnimation {
+    public wall: Wall
     private _widthdrawing: boolean = false
-    private _init: boolean = true
     private _game: Game = Game.getGame()
     private _startPositionX: number = -15
-    private _endPositionX: number = -6
+    private _endPositionX: number | boolean
 
-    public depthAnimation(wall: Wall): void {
-        let position = wall.getPosition()
+    constructor(wall: Wall, endPosition: number | boolean = -6) {
+        this.wall = wall
+        this.wall.position.x = this._startPositionX
+        this._endPositionX = endPosition
+    }
 
-        if (position.z < wall.getMaxDistance()) {
-            position.z += 0.1
-        } else {
+    public depthAnimation(): void {
+        if (this.wall.position.z < this.wall.maxDistance) {
+            this.wall.position.z += 0.1
+        } else if(this._endPositionX) {
             this._widthdrawing = true
-            this.widthdrawAnimation(wall)
+            this.widthdrawAnimation()
         }
     }
 
-    public insertAnimation(wall: Wall): void {
-        let position = wall.getPosition()
-
-        if (this._init) {
-            position.x = this._startPositionX
-            this._init = false
-        }
-
-        if (position.x <= this._endPositionX && this._widthdrawing == false) {
-            position.x += 0.05
+    public insertAnimation(): void {
+        if ( !this._endPositionX || (this.wall.position.x <= this._endPositionX && this._widthdrawing == false)) {
+            this.wall.position.x += 0.05
         }
     }
 
-    public widthdrawAnimation(wall: Wall): void {
-        let position = wall.getPosition()
+    public widthdrawAnimation(): void {
+        this.wall.position.x -= 0.2
 
-        position.x -= 0.2
-
-        if (position.x < this._startPositionX) {
-            wall.remove(); 
+        if (this.wall.position.x < this._startPositionX) {
+            this.wall.remove(); 
         }
     }
 
-    public update(wall: Wall): void {
-        this.insertAnimation(wall)
-        this.depthAnimation(wall)
+    public update(): void {
+        this.insertAnimation()
+        this.depthAnimation()
     }
 }

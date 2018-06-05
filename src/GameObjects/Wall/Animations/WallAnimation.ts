@@ -3,5 +3,6 @@
 import Wall from '../Wall'
 
 export default interface WallAnimation {
-    update(wall : Wall) : void 
+    wall : Wall 
+    update() : void 
 }

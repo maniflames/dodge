@@ -4,8 +4,6 @@ import Wall from './GameObjects/Wall/Wall'
 import WallAnimation from './GameObjects/Wall/Animations/WallAnimation'
 import WallAnimationLeft from './GameObjects/Wall/Animations/WallAnimationLeft'
 import WallAnimationRight from './GameObjects/Wall/Animations/WallAnimationRight'
-import WallAnimationLeftToRight from './GameObjects/Wall/Animations/WallAnimationLeftToRight'
-import WallAnimationRightToLeft from './GameObjects/Wall/Animations/WallAnimationRightToLeft';
 
 //a level only takes care of how and which objects are spawned into the game 
 //you should be able to give a difficulty to a level and the level will act based on difficulty
@@ -22,30 +20,34 @@ export default class Level {
     }
 
     private _addWall(): void {
+        let wall = new Wall()
         let animation: WallAnimation
+        
         const n = Math.floor(Math.random() * 4);
         switch (n) {
             case 0:
-                animation = new WallAnimationLeft();
-                break;
+                animation = new WallAnimationLeft(wall)
+                break
 
             case 1:
-                animation = new WallAnimationRight();
-                break;
+                animation = new WallAnimationRight(wall)
+                break
 
             case 2:
-                animation = new WallAnimationLeftToRight();
-                break;
+                animation = new WallAnimationLeft(wall, false)
+                break
 
             case 3:
-                animation = new WallAnimationRightToLeft();
-                break;
+                animation = new WallAnimationRight(wall, false)
+                break
 
             default:
-                animation = new WallAnimationLeft();
+                animation = new WallAnimationLeft(wall)
                 break;
         }
-        this._game.addGameObject(new Wall(animation));
+
+        wall.animation = animation
+        this._game.addGameObject(wall)
     }
 
     public nextLevel(): void {
