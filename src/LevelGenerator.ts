@@ -7,16 +7,24 @@ import WallAnimationRight from './GameObjects/Wall/Animations/WallAnimationRight
 
 //a level only takes care of how and which objects are spawned into the game 
 //you should be able to give a difficulty to a level and the level will act based on difficulty
-export default class Level {
+export default class LevelGenerator {
+    private static _object: LevelGenerator
     private _difficulty: number
     private _timer: THREE.Clock = new THREE.Clock(false)
     private _timeHistory: number = 0
     private _game: Game = Game.getGame()
-    private _score: number = 0
 
-    constructor(difficulty: number) {
+    private constructor(difficulty: number) {
         this._difficulty = difficulty
         this._timer.start()
+    }
+
+    public static getGenerator(): LevelGenerator {
+        if(!LevelGenerator._object){
+            LevelGenerator._object = new LevelGenerator(1)
+        }
+
+        return LevelGenerator._object
     }
 
     private _addWall(): void {
@@ -63,10 +71,6 @@ export default class Level {
         if (roundedTime % 3 == 0 && roundedTime != this._timeHistory) {
             this._timeHistory = roundedTime
             this._addWall()
-            if (this._game.scoreDisplay) {
-                this._game.scoreDisplay.visible = true
-                this._game.scoreDisplay.score = this._score++
-            }
         }
     }
 

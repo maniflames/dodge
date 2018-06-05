@@ -1,15 +1,20 @@
 /// <reference path="../typings/index.d.ts" />
 import GameObject from './GameObject'
 import Game from '../Game'
+import GameStateManager from '../GameStates/GameStateManager'
+import GameOver from '../GameStates/GameOver';
+import GamePlay from '../GameStates/GamePlay';
 
 export default class Player extends GameObject {
+    private _gameStateManager: GameStateManager
     private _mouse: THREE.Vector2 = new THREE.Vector2()
     private _trackCb = (e: MouseEvent) => { this._traceMouse(e) }
+    
 
     constructor() {
         super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({ color: 0x9cb3d8 }))
+        this._gameStateManager = GameStateManager.getManager()
         this._mesh.position.z = this._game.getCamera().position.z - 10;
-        //TODO: only listen when the gamestate is STATE_PLAYING
         window.addEventListener('mousemove', this._trackCb)
     }
 
@@ -59,10 +64,10 @@ export default class Player extends GameObject {
         this._mesh.position.y = this._mouse.y * worldYEdge
     }
 
-    public die(): void {
+    public remove(): void {
         window.removeEventListener('mousemove', this._trackCb)
-        this.remove()
-        this._game.gameOver()
+        super.remove()
+        this._gameStateManager.state = new GameOver()
     }
 
     public update(): void {

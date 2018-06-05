@@ -1,40 +1,36 @@
 /// <reference path="typings/index.d.ts" />
 import GameObject from './GameObjects/GameObject'
-import Player from './GameObjects/Player'
-import Tunnel from './GameObjects/Tunnel'
-import Wall from './GameObjects/Wall/Wall'
-import Level from './Level'
 import Screen from './UI/Screen'
-import StartScreen from './UI/StartScreen'
-import EndScreen from './UI/EndScreen'
 import ScoreDisplay from './UI/ScoreDisplay'
+import GameStateManager from './GameStates/GameStateManager'
 
 export default class Game {
-    private static _object: Game;
-    private STATE_INIT: string = "init" //not static because the assignment
-    private STATE_INIT_DONE: string = "init_done" //happens in game constructor as well
-    private STATE_PLAYING: string = "playing"
-    private STATE_PAUSE: string = "pause"
-    private STATE_OVER: string = "game_over"
-    private _state: string | null
+    private static _object: Game
+    private _gameStateManager: GameStateManager
     private _renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
     private _scene: THREE.Scene = new THREE.Scene()
     private _camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     private _gameObjects: Array<GameObject> = new Array<GameObject>()
-    private _level: Level | null
-    private _screen: Screen | null
-    private _scoreDisplay: ScoreDisplay | null
+    private _screen: Screen | null = null
+    private _scoreDisplay: ScoreDisplay | null = null
 
-    public static getGame(): Game {
-        if (!Game._object) {
-            Game._object = new Game()
-        }
-
-        return Game._object;
+    public set screen(screen: Screen) {
+        this._screen = screen
     }
 
-    public get scoreDisplay() { return this._scoreDisplay }
+    public get scoreDisplay(): ScoreDisplay | null {
+        return this._scoreDisplay
+    }
 
+    public set scoreDisplay(scoreDisplay: ScoreDisplay | null) {
+        this._scoreDisplay = scoreDisplay
+    }
+
+    public get gameObjects(): Array<GameObject> {
+        return this._gameObjects
+    }
+
+    //TODO: refactor these getters 
     public getCamera(): THREE.Camera {
         return this._camera;
     }
@@ -45,10 +41,8 @@ export default class Game {
 
     private constructor() {
         console.count("[Game] Game construct!")
-        this._state = this.STATE_INIT
-        this._level = null
-        this._screen = null
-        this._scoreDisplay = null
+
+        this._gameStateManager = GameStateManager.getManager()
 
         // let pointLight = new THREE.PointLight(0xff0000, 1, 100)
         const pointLight = new THREE.PointLight(0xff0000, 1, 100, 2);
@@ -62,66 +56,18 @@ export default class Game {
         requestAnimationFrame(() => this._gameloop())
     }
 
-    private _init() {
-        this._screen = new StartScreen()
-        this._scoreDisplay = new ScoreDisplay()
-        this.addGameObject(new Tunnel())
-        this._state = this.STATE_INIT_DONE
+    public static getGame(): Game {
+        if (!Game._object) {
+            Game._object = new Game()
+        }
+
+        return Game._object;
     }
 
     private _gameloop() {
-        if (this._state === this.STATE_INIT) {
-            this._init()
-        }
-
-        //TODO: check if the game the game state is "playing.." 
-        //this would be cool because the only thing that has to happen is that this 
-        //and the objects in the gameobjects array will stop during pause
-        if (this._level && this._state === this.STATE_PLAYING) {
-            this._level.update()
-        }
-
-        for (let object of this._gameObjects) {
-            if (this._state === this.STATE_PLAYING) {
-                object.update()
-            }
-
-            //Logic behind collision should be refactored to a seperate function
-            //TODO: refactor into something pretty
-            if (object instanceof Player) {
-                for (let otherObject of this._gameObjects) {
-                    if (otherObject instanceof Wall) {
-
-                        let boxObj = object.getBoundingBox()
-                        let boxOthObj = otherObject.getBoundingBox()
-
-                        if (boxObj.intersectsBox(boxOthObj)) {
-                            object.die()
-                        }
-                    }
-                }
-            }
-        }
-
+        this._gameStateManager.update()
         this._renderer.render(this._scene, this._camera)
         requestAnimationFrame(() => this._gameloop())
-    }
-
-    public playGame() {
-        this.addGameObject(new Player())
-        this._level = new Level(1)
-        this._state = this.STATE_PLAYING
-    }
-
-    public gameOver() {
-        this._state = this.STATE_OVER
-        for (let index = this._gameObjects.length - 1 ; index >= 0; index--) {
-            if (this._gameObjects[index] instanceof Wall) {
-                this._gameObjects[index].remove()
-            }
-            
-        }
-        this._screen = new EndScreen()
     }
 
     public addGameObject(object: GameObject): void {
