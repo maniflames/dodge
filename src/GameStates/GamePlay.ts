@@ -1,24 +1,24 @@
 import Game from '../Game'
+import GameStateManager from '../GameStates/GameStateManager'
+import GameOver from '../GameStates/GameOver'
 import ScoreDisplay from '../UI/ScoreDisplay'
 import LevelGenerator from '../LevelGenerator'
 import GameObject from '../GameObjects/GameObject'
-import Tunnel from '../GameObjects/Tunnel'
 import Player from '../GameObjects/Player'
 import Wall from '../GameObjects/Wall/Wall'
-
+import GamePause from './GamePause'
 
 export default class GamePlay implements GameState {
     private _game: Game
+    private _gameStateManager: GameStateManager
     private _levelGenerator: LevelGenerator
+    private _pauseKeyCb = (e: KeyboardEvent) => { this._pauseKeyHandler(e) }
 
     constructor() {
-        console.count('[GamePlay] Started new game')
         this._game = Game.getGame()
-        this._game.scoreDisplay = new ScoreDisplay()
+        this._gameStateManager = GameStateManager.getManager()
         this._levelGenerator = LevelGenerator.getGenerator() 
-        this._game.addGameObject(new Tunnel())
-        this._game.addGameObject(new Player())
-        
+        document.addEventListener('keydown', this._pauseKeyCb)
     }
 
     public update():void {
@@ -39,7 +39,12 @@ export default class GamePlay implements GameState {
             for (let obj2 of this._game.gameObjects) {
                 if(obj1 instanceof Player && obj2 instanceof Wall){
                     if(this._checkCollision(obj1, obj2)) {
+                        document.removeEventListener('keydown', this._pauseKeyCb)
                         obj1.remove()
+                        if(this._game.scoreDisplay){
+                            this._game.scoreDisplay.remove()
+                        }
+                        this._gameStateManager.state = new GameOver()
                     }    
                 }
             }
@@ -64,5 +69,20 @@ export default class GamePlay implements GameState {
         }
 
         return false
+    }
+
+    private _pauseKeyHandler(e: KeyboardEvent) {
+        if(e.key != ' '){
+            return
+        }
+
+        for(let player of this._game.gameObjects) {
+            if(player instanceof Player) {
+                player.removeMouseTracking()
+            }
+        }
+
+        document.removeEventListener('keydown', this._pauseKeyCb)
+        this._gameStateManager.state = new GamePause(); 
     }
 }

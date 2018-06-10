@@ -20,4 +20,8 @@ export default class ScoreDisplay {
         this.parentElement.appendChild(this.element)
         this.score = 0
     }
+
+    public remove() {
+        this.parentElement.removeChild(this.element)
+    }
 }

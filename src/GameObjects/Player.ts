@@ -1,21 +1,15 @@
 /// <reference path="../typings/index.d.ts" />
 import GameObject from './GameObject'
 import Game from '../Game'
-import GameStateManager from '../GameStates/GameStateManager'
-import GameOver from '../GameStates/GameOver';
-import GamePlay from '../GameStates/GamePlay';
 
 export default class Player extends GameObject {
-    private _gameStateManager: GameStateManager
     private _mouse: THREE.Vector2 = new THREE.Vector2()
     private _trackCb = (e: MouseEvent) => { this._traceMouse(e) }
     
-
     constructor() {
         super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({ color: 0x9cb3d8 }))
-        this._gameStateManager = GameStateManager.getManager()
-        this._mesh.position.z = this._game.getCamera().position.z - 10;
-        window.addEventListener('mousemove', this._trackCb)
+        this._mesh.position.z = this._game.getCamera().position.z - 10
+        this.addMouseTracking()
     }
 
     //NOTE: I recently found an issue that discussed the math of finding the FOV
@@ -64,10 +58,17 @@ export default class Player extends GameObject {
         this._mesh.position.y = this._mouse.y * worldYEdge
     }
 
+    public addMouseTracking() {
+        document.addEventListener('mousemove', this._trackCb)
+    }
+
+    public removeMouseTracking() {
+        document.removeEventListener('mousemove', this._trackCb)
+    }
+
     public remove(): void {
-        window.removeEventListener('mousemove', this._trackCb)
+        this.removeMouseTracking()
         super.remove()
-        this._gameStateManager.state = new GameOver()
     }
 
     public update(): void {

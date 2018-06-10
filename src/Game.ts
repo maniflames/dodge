@@ -14,7 +14,11 @@ export default class Game {
     private _screen: Screen | null = null
     private _scoreDisplay: ScoreDisplay | null = null
 
-    public set screen(screen: Screen) {
+    public get screen(): Screen | null {
+        return this._screen; 
+    }
+
+    public set screen(screen: Screen | null) {
         this._screen = screen
     }
 
