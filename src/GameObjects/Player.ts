@@ -1,7 +1,9 @@
 /// <reference path="../typings/index.d.ts" />
 import GameObject from './GameObject'
 import Game from '../Game'
+import ColorListener from '../ColorManagement/ColorListener'
 
+//TODO: Try to add a light to the player
 export default class Player extends GameObject {
     private _mouse: THREE.Vector2 = new THREE.Vector2()
     private _trackCb = (e: MouseEvent) => { this._traceMouse(e) }

@@ -13,6 +13,10 @@ export default class GameOver implements GameState {
         this._game = Game.getGame()
         this._gameStateManager = GameStateManager.getManager()
 
+        if(this._game.scoreDisplay){
+            this._game.scoreDisplay.remove()
+        }
+
         for (let index = this._game.gameObjects.length - 1 ; index >= 0; index--) {
             if (this._game.gameObjects[index] instanceof Wall) {
                 this._game.gameObjects[index].remove()

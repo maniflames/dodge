@@ -3,6 +3,7 @@ import GameObject from './GameObjects/GameObject'
 import Screen from './UI/Screen'
 import ScoreDisplay from './UI/ScoreDisplay'
 import GameStateManager from './GameStates/GameStateManager'
+import Score from './Score'
 
 export default class Game {
     private static _object: Game
@@ -11,8 +12,21 @@ export default class Game {
     private _scene: THREE.Scene = new THREE.Scene()
     private _camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     private _gameObjects: Array<GameObject> = new Array<GameObject>()
+    private _score: Score = new Score
     private _screen: Screen | null = null
     private _scoreDisplay: ScoreDisplay | null = null
+
+
+    public get score(): number {
+        return this._score.total
+    }
+
+    public set score(newScore: number) {
+        this._score.total = newScore
+        if(this._scoreDisplay) {
+            this._scoreDisplay.score = this._score.total
+        }
+    }
 
     public get screen(): Screen | null {
         return this._screen; 
@@ -49,7 +63,7 @@ export default class Game {
         this._gameStateManager = GameStateManager.getManager()
 
         // let pointLight = new THREE.PointLight(0xff0000, 1, 100)
-        const pointLight = new THREE.PointLight(0xff0000, 1, 100, 2);
+        const pointLight = new THREE.PointLight(0xffffff, 1, 100, 2);
         pointLight.position.set(0, 0, 50)
         this._scene.add(pointLight)
 
