@@ -7,8 +7,8 @@ import Score from './Score'
 
 export default class Game {
     private static _object: Game
-    private _gameStateManager: GameStateManager
-    private _renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
+    private _gameStateManager: GameStateManager = GameStateManager.getManager()
+    private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer()
     private _scene: THREE.Scene = new THREE.Scene()
     private _camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     private _gameObjects: Array<GameObject> = new Array<GameObject>()
@@ -48,19 +48,20 @@ export default class Game {
         return this._gameObjects
     }
 
-    //TODO: refactor these getters 
-    public getCamera(): THREE.Camera {
+    public get gameStateManager(): GameStateManager {
+        return this._gameStateManager
+    }
+
+    public get camera(): THREE.Camera {
         return this._camera;
     }
 
-    public getScene(): THREE.Scene {
+    public get scene(): THREE.Scene {
         return this._scene;
     }
 
     private constructor() {
         console.count("[Game] Game construct!")
-
-        this._gameStateManager = GameStateManager.getManager()
 
         // let pointLight = new THREE.PointLight(0xff0000, 1, 100)
         const pointLight = new THREE.PointLight(0xffffff, 1, 100, 2);
@@ -68,10 +69,10 @@ export default class Game {
         this._scene.add(pointLight)
 
         this._camera.position.z = 50
-        this._renderer.setSize(window.innerWidth, window.innerHeight)
-        document.body.appendChild(this._renderer.domElement)
+        this.renderer.setSize(window.innerWidth, window.innerHeight)
+        document.body.appendChild(this.renderer.domElement)
 
-        requestAnimationFrame(() => this._gameloop())
+        requestAnimationFrame(() => this.gameloop())
     }
 
     public static getGame(): Game {
@@ -82,10 +83,10 @@ export default class Game {
         return Game._object;
     }
 
-    private _gameloop() {
+    private gameloop(): void {
         this._gameStateManager.update()
-        this._renderer.render(this._scene, this._camera)
-        requestAnimationFrame(() => this._gameloop())
+        this.renderer.render(this._scene, this._camera)
+        requestAnimationFrame(() => this.gameloop())
     }
 
     public addGameObject(object: GameObject): void {

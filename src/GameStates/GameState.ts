@@ -1,3 +1,3 @@
-interface GameState {
+export default interface GameState {
     update(): void
 }

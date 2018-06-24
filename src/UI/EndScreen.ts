@@ -1,7 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
 import Screen from './Screen'
 
-
 export default class EndScreen extends Screen {
     
     constructor() {
@@ -9,7 +8,7 @@ export default class EndScreen extends Screen {
         this.addBtn('restart')
     }
 
-    public remove() : void {
+    public remove(): void {
         super.remove()
     }
 }

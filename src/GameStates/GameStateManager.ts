@@ -1,5 +1,7 @@
+import GameState from "./GameState"
+
 export default class GameStateManager {
-    private static _object: GameStateManager
+    private static object: GameStateManager
     private _state: GameState | null = null
 
     public get state(): GameState | null {
@@ -13,11 +15,11 @@ export default class GameStateManager {
     private constructor() {  }
 
     public static getManager(): GameStateManager {
-        if(!GameStateManager._object){
-            GameStateManager._object = new GameStateManager()
+        if(!GameStateManager.object){
+            GameStateManager.object = new GameStateManager()
         }
 
-        return GameStateManager._object
+        return GameStateManager.object
     }
     
     public update(): void {

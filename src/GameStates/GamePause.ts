@@ -1,33 +1,30 @@
-import GameStateManager from '../GameStates/GameStateManager'
 import GamePlay from './GamePlay'
 import Game from '../Game'
 import Player from '../GameObjects/Player'
+import GameState from './GameState'
 
 
 export default class GamePause implements GameState {
-    private _pauseKeyCb = (e: KeyboardEvent) => { this._pauseKeyHandler(e) }
-    private _game: Game
-    private _gameStateManager: GameStateManager
+    private pauseKeyCb = (e: KeyboardEvent) => { this.pauseKeyHandler(e) }
+    private game: Game = Game.getGame()
 
     constructor() {
-        this._game = Game.getGame()
-        this._gameStateManager = GameStateManager.getManager()
-        document.addEventListener('keydown', this._pauseKeyCb)
+        document.addEventListener('keydown', this.pauseKeyCb)
     }
 
     public update(): void { }
 
-    private _pauseKeyHandler(e: KeyboardEvent) {
+    private pauseKeyHandler(e: KeyboardEvent): void {
         if(e.key != ' ') {
             return
         }
 
-        document.removeEventListener('keydown', this._pauseKeyCb)
-        for(let player of this._game.gameObjects){
+        document.removeEventListener('keydown', this.pauseKeyCb)
+        for(let player of this.game.gameObjects){
             if(player instanceof Player) {
                 player.addMouseTracking()
             }
         }
-        this._gameStateManager.state = new GamePlay()
+        this.game.gameStateManager.state = new GamePlay()
     }
 }

@@ -1,16 +1,14 @@
 /// <reference path="../typings/index.d.ts" />
 import GameObject from './GameObject'
-import Game from '../Game'
-import ColorListener from '../ColorManagement/ColorListener'
 
 //TODO: Try to add a light to the player
 export default class Player extends GameObject {
-    private _mouse: THREE.Vector2 = new THREE.Vector2()
-    private _trackCb = (e: MouseEvent) => { this._traceMouse(e) }
+    private mouse: THREE.Vector2 = new THREE.Vector2()
+    private trackCb = (e: MouseEvent) => { this.traceMouse(e) }
     
     constructor() {
         super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({ color: 0x9cb3d8 }))
-        this._mesh.position.z = this._game.getCamera().position.z - 10
+        this.mesh.position.z = this.game.camera.position.z - 10
         this.addMouseTracking()
     }
 
@@ -19,13 +17,13 @@ export default class Player extends GameObject {
     //This would mean I have to implement collision between the player & the tunnel
     //Current calculations make it impossible to reach the tunnel in the first place
     //https://github.com/mrdoob/three.js/issues/1239
-    private _traceMouse(e: MouseEvent): void {
+    private traceMouse(e: MouseEvent): void {
         //normalized mouse coordinates
         //returns number between -1 & 1 representing position on screen 
-        //where 0,0 is the middle
+        //where 0,0 is the center
         //https://threejs.org/docs/#api/core/Raycaster
-        this._mouse.x = (e.x / window.innerWidth) * 2 - 1
-        this._mouse.y = - (e.y / window.innerHeight) * 2 + 1
+        this.mouse.x = (e.x / window.innerWidth) * 2 - 1
+        this.mouse.y = - (e.y / window.innerHeight) * 2 + 1
 
         //the whole positioning of the game is based on the tunnel which has a radius of 10
         //the edges (y) of the tunnel on the current z index of the player are not 100% on screen 
@@ -56,16 +54,16 @@ export default class Player extends GameObject {
             //exit game
         }
 
-        this._mesh.position.x = this._mouse.x * worldXEdge
-        this._mesh.position.y = this._mouse.y * worldYEdge
+        this.mesh.position.x = this.mouse.x * worldXEdge
+        this.mesh.position.y = this.mouse.y * worldYEdge
     }
 
-    public addMouseTracking() {
-        document.addEventListener('mousemove', this._trackCb)
+    public addMouseTracking(): void {
+        document.addEventListener('mousemove', this.trackCb)
     }
 
-    public removeMouseTracking() {
-        document.removeEventListener('mousemove', this._trackCb)
+    public removeMouseTracking(): void {
+        document.removeEventListener('mousemove', this.trackCb)
     }
 
     public remove(): void {

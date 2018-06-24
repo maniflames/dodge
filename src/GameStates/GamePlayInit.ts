@@ -2,31 +2,27 @@ import Game from "../Game"
 import ScoreDisplay from "../UI/ScoreDisplay"
 import Tunnel from "../GameObjects/Tunnel"
 import Player from "../GameObjects/Player"
-import GameStateManager from "./GameStateManager"
 import GamePlay from "./GamePlay"
 import ColorManager from "../ColorManagement/ColorManager"
+import GameState from "./GameState"
 
 export default class GamePlayInit implements GameState {
-    private _game: Game
-    private _gameStateManager: GameStateManager
-    private _colorManager: ColorManager
-    private _done: Boolean = false
+    private game: Game = Game.getGame()
+    private colorManager: ColorManager = ColorManager.getManager()
+    private done: Boolean = false
 
     constructor() {
-        this._game = Game.getGame()
-        this._gameStateManager = GameStateManager.getManager()
-        this._colorManager = ColorManager.getManager()
-        this._game.scoreDisplay = new ScoreDisplay()
-        let tunnel = new Tunnel(this._colorManager.color)
-        this._colorManager.subscribe(tunnel)
-        this._game.addGameObject(tunnel)
-        this._game.addGameObject(new Player())
-        this._done = true
+        this.game.scoreDisplay = new ScoreDisplay()
+        let tunnel = new Tunnel(this.colorManager.color)
+        this.colorManager.subscribe(tunnel)
+        this.game.addGameObject(tunnel)
+        this.game.addGameObject(new Player())
+        this.done = true
     }
 
     public update(): void { 
-        if(this._done) {
-            this._gameStateManager.state = new GamePlay()
+        if(this.done) {
+            this.game.gameStateManager.state = new GamePlay()
         }
     }
 } 

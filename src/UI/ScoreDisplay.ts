@@ -1,6 +1,6 @@
 export default class ScoreDisplay {
-    private parentElement: HTMLDivElement
-    private element: HTMLDivElement
+    private parentElement: HTMLElement = document.body as HTMLElement;
+    private element: HTMLElement
     private _score: number = 0
 
     get score(): number {
@@ -13,7 +13,6 @@ export default class ScoreDisplay {
     }
 
     constructor() {
-        this.parentElement = document.body as HTMLDivElement;
         this.element = document.createElement('div')
         this.element.classList.add('display')
         this.element.style.display = 'block'

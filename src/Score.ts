@@ -1,5 +1,5 @@
 export default class Score {
-    private _total: number
+    private _total: number = 0
 
     public get total(): number {
         return this._total
@@ -9,11 +9,7 @@ export default class Score {
         this._total = newScore
     }
 
-    constructor(){
-        this._total = 0
-    }
-
-    public reset() {
+    public reset(): void {
         this._total = 0; 
     }
 }

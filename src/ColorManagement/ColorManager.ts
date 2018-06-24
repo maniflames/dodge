@@ -2,37 +2,34 @@ import IColorManager from "./IColorManager"
 import ColorListener from "./ColorListener"
 
 export default class ColorManager implements IColorManager {
-    private static _object: ColorManager
+    private static object: ColorManager
+    private colorListeners: Array<ColorListener> = new Array<ColorListener>()
     private _color: THREE.Color
-    private _colorListeners: Array<ColorListener> = new Array<ColorListener>()
 
     public get color(): THREE.Color {
         return this._color
     }
 
     private constructor() {
-        this._color = this._generateColor()
+        this._color = this.generateColor()
     }
 
     public static getManager(): ColorManager {
-        if(!ColorManager._object){
-            ColorManager._object = new ColorManager()
+        if(!ColorManager.object){
+            ColorManager.object = new ColorManager()
         }
 
-        return ColorManager._object
+        return ColorManager.object
     }
     
-    public subscribe(object: ColorListener): void {
-        console.log('subscribed!')
-        this._colorListeners.push(object)
-        console.log(this._colorListeners)
+    public subscribe(listener: ColorListener): void {
+        this.colorListeners.push(listener)
     }
 
-    public unsubscribe(object: ColorListener): void {
-        let index = this._colorListeners.indexOf(object)
-        console.warn(this._colorListeners)
+    public unsubscribe(listener: ColorListener): void {
+        let index = this.colorListeners.indexOf(listener)
         if(index != -1) {
-            this._colorListeners.splice(index, 1)
+            this.colorListeners.splice(index, 1)
             return
         }
 
@@ -40,14 +37,14 @@ export default class ColorManager implements IColorManager {
     }
 
     public changeColor(): void {
-        let color = this._generateColor()
-        for (let object of this._colorListeners) {
+        let color = this.generateColor()
+        for (let listener of this.colorListeners) {
             this._color = color
-            object.onColorChange(color)
+            listener.onColorChange(color)
         }
     }
 
-    private _generateColor(): THREE.Color {
+    private generateColor(): THREE.Color {
         return new THREE.Color(Math.random(), Math.random(), Math.random()) 
     }
 }
