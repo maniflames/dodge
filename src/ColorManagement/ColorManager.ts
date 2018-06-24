@@ -38,8 +38,9 @@ export default class ColorManager implements IColorManager {
 
     public changeColor(): void {
         let color = this.generateColor()
+        this._color = color
+        
         for (let listener of this.colorListeners) {
-            this._color = color
             listener.onColorChange(color)
         }
     }

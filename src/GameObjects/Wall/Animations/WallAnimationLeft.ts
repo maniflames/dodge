@@ -17,7 +17,7 @@ export default class WallAnimationLeft implements WallAnimation {
 
     public depthAnimation(): void {
         if(this.wall.position.z < this.wall.maxDistance) {
-            this.wall.position.z += 0.1
+            this.wall.position.z += (0.1 * this.wall.speed)
         } else if(this.endPositionX && this.wall.position.z >= this.wall.maxDistance) {
             this.wall.animation = new WallAnimationRight(this.wall, false, this.wall.position.x)
         }
@@ -25,7 +25,7 @@ export default class WallAnimationLeft implements WallAnimation {
 
     public insertAnimation(): void {
         if( !this.endPositionX || (this.wall.position.x >= this.endPositionX && this.widthdrawing == false)) {
-            this.wall.position.x -= 0.05 
+            this.wall.position.x -= (0.05 * this.wall.speed)
         } 
     }
 

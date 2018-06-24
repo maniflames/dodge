@@ -274,6 +274,10 @@ Even though I do use DOM elements for creating the menu UI, the actual game is b
 ### External library: Three.js
 This game is built with Three.js, an external library that makes it easier to work with WebGL. 
 
+### The game has levels with increasing difficulty
+This infinite runner gets harder over time. Every time you have 'passed' a level the color of the game will change and the speed will increase.
+The difficulty of the game is managed by ```LevelGenerator``` and is set up in such a way that this keeps happening until you die.
+
 ## Contributers 
 Thank you for the pull request [@sven-zo](https://github.com/sven-zo)! 🎉
 

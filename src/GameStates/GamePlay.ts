@@ -8,11 +8,14 @@ import GamePause from './GamePause'
 import ColorManager from '../ColorManagement/ColorManager'
 import GameState from './GameState'
 import IColorManager from '../ColorManagement/IColorManager'
+import ISpeedManager from '../SpeedManagement/ISpeedManager'
+import SpeedManager from '../SpeedManagement/SpeedManager'
 
 export default class GamePlay implements GameState {
     private game: Game = Game.getGame()
     private levelGenerator: LevelGenerator = LevelGenerator.getGenerator() 
     private colorManager: IColorManager = ColorManager.getManager()
+    private speedManager: ISpeedManager = SpeedManager.getManager()
     private pauseKeyCb = (e: KeyboardEvent) => { this.pauseKeyHandler(e) }
 
     constructor() {
@@ -31,6 +34,7 @@ export default class GamePlay implements GameState {
                         this.game.score++
                     }   
                     this.colorManager.unsubscribe(obj1)
+                    this.speedManager.unsubscribe(obj1)
                     obj1.remove()
                 }
             }
@@ -38,7 +42,6 @@ export default class GamePlay implements GameState {
             for (let obj2 of this.game.gameObjects) {
                 if(obj1 instanceof Player && obj2 instanceof Wall){
                     if(this.checkCollision(obj1, obj2)) {
-                        this.colorManager.unsubscribe(obj2)
                         document.removeEventListener('keydown', this.pauseKeyCb)
                         obj1.remove()
                         this.game.gameStateManager.state = new GameOver()

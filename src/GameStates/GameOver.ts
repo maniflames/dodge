@@ -15,6 +15,7 @@ export default class GameOver implements GameState {
 
         for (let index = this.game.gameObjects.length - 1 ; index >= 0; index--) {
             if (this.game.gameObjects[index] instanceof Wall) {
+                //I should probably unsubscribe from both color and speed
                 this.game.gameObjects[index].remove()
             }
         }

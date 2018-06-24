@@ -4,11 +4,11 @@ import Wall from './GameObjects/Wall/Wall'
 import WallAnimation from './GameObjects/Wall/Animations/WallAnimation'
 import WallAnimationLeft from './GameObjects/Wall/Animations/WallAnimationLeft'
 import WallAnimationRight from './GameObjects/Wall/Animations/WallAnimationRight'
+import IColorManager from './ColorManagement/IColorManager'
 import ColorManager from './ColorManagement/ColorManager'
-//TODO: Change speed based on difficulty 
+import ISpeedManager from './SpeedManagement/ISpeedManager'
+import SpeedManager from './SpeedManagement/SpeedManager'
 
-//a level only takes care of how and which objects are spawned into the game 
-//you should be able to give a difficulty to a level and the level will act based on difficulty
 export default class LevelGenerator {
     private static object: LevelGenerator
     private difficulty: number
@@ -16,7 +16,8 @@ export default class LevelGenerator {
     private timer: THREE.Clock = new THREE.Clock(false)
     private timeHistory: number = 0
     private game: Game = Game.getGame()
-    private colorManager: ColorManager = ColorManager.getManager()
+    private colorManager: IColorManager = ColorManager.getManager()
+    private speedManager: ISpeedManager = SpeedManager.getManager()
 
     private constructor(difficulty: number) {
         this.difficulty = difficulty
@@ -25,23 +26,21 @@ export default class LevelGenerator {
     }
 
     public static getGenerator(): LevelGenerator {
-        if(!LevelGenerator.object){
+        if (!LevelGenerator.object) {
             LevelGenerator.object = new LevelGenerator(1)
         }
 
         return LevelGenerator.object
     }
 
-    private _addWall(): void {
+    private addWall(): void {
         let wall = new Wall(this.colorManager.color)
         let animation: WallAnimation
 
         //TODO: difficulty influences wall selection
         //STEP 1: Difficulty category selection
-            //STEP 2: Direction Selection
+        //STEP 2: Direction Selection
 
-        //TODO: Manage Spawnhistory so a wall can only appear twice in a row
-        
         const n = Math.floor(Math.random() * 4)
         switch (n) {
             case 0:
@@ -66,36 +65,47 @@ export default class LevelGenerator {
         }
 
         wall.animation = animation
+        wall.speed = this.speedManager.speed
         this.game.addGameObject(wall)
         this.colorManager.subscribe(wall)
+        this.speedManager.subscribe(wall)
     }
 
     private calculateNextTargetScore(): number {
-        if(this.game.score === 0){
+        if (this.game.score === 0) {
             return Math.round(Math.random() * 4 + 8)
         }
 
-        return this.targetScore + Math.round(Math.random() * 10 + 20)
+        return this.targetScore + Math.round(Math.random() * 4 + 10)
     }
 
     private checkDifficultyUpdate(): void {
-        if(this.game.score >= this.targetScore) {
+        if (this.game.score >= this.targetScore) {
             console.log('update dificulty')
             this.difficulty++
             this.targetScore = this.calculateNextTargetScore()
             this.colorManager.changeColor()
+            this.speedManager.changeSpeed(this.speedManager.speed + 0.3)
+            console.log(this.speedManager.speed)
         }
     }
 
     public update(): void {
         this.checkDifficultyUpdate()
 
-        //TODO: Implement spawn based on dificulty 
         let roundedTime = Math.floor(this.timer.getElapsedTime())
+        let spawnDelay;
+        if(this.speedManager.speed >= 2) {
+            spawnDelay = 2
+        } else if(this.speedManager.speed >= 4 ) {
+            spawnDelay = 1
+        } else {
+            spawnDelay = 3
+        }
 
-        if (roundedTime % 2 == 0 && roundedTime != this.timeHistory) {
+        if (roundedTime % spawnDelay == 0 && roundedTime != this.timeHistory) {
             this.timeHistory = roundedTime
-            this._addWall()
+            this.addWall()
         }
     }
 

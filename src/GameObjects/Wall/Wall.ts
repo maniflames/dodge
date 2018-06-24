@@ -2,10 +2,12 @@
 import GameObject from '../GameObject'
 import WallAnimation from './Animations/WallAnimation'
 import ColorListener from '../../ColorManagement/ColorListener'
+import SpeedListener from '../../SpeedManagement/SpeedListener'
 
-export default class Wall extends GameObject implements ColorListener {
+export default class Wall extends GameObject implements ColorListener, SpeedListener {
     private _maxDistanceFromCamera: number = this.game.camera.position.z - 8
     private _animation: WallAnimation | null = null
+    private _speed: number = 0
 
     public get animation(): WallAnimation | null {
         return this._animation
@@ -23,6 +25,14 @@ export default class Wall extends GameObject implements ColorListener {
         return this._maxDistanceFromCamera
     }
 
+    public get speed(): number {
+        return this._speed
+    }
+
+    public set speed(speed: number) {
+        this._speed = speed
+    }
+
     constructor(color: THREE.Color) {
         super(new THREE.BoxGeometry(10, 20, 1), new THREE.MeshLambertMaterial())
         this.onColorChange(color)
@@ -31,6 +41,10 @@ export default class Wall extends GameObject implements ColorListener {
     public onColorChange(color: THREE.Color): void {
         let material = this.mesh.material as THREE.MeshLambertMaterial
         material.color = color;
+    }
+
+    public onSpeedChange(speed: number): void {
+        this._speed = speed
     }
 
     public update(): void {
