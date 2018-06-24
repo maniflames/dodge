@@ -2,7 +2,6 @@
 import Screen from './Screen'
 
 export default class StartScreen extends Screen {
-
     constructor() {
         super()
         this.addBtn('play')

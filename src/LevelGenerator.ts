@@ -20,7 +20,7 @@ export default class LevelGenerator {
 
     private constructor(difficulty: number) {
         this.difficulty = difficulty
-        this.targetScore = this._calculateNextTargetScore()
+        this.targetScore = this.calculateNextTargetScore()
         this.timer.start()
     }
 
@@ -70,7 +70,7 @@ export default class LevelGenerator {
         this.colorManager.subscribe(wall)
     }
 
-    private _calculateNextTargetScore(): number {
+    private calculateNextTargetScore(): number {
         if(this.game.score === 0){
             return Math.round(Math.random() * 4 + 8)
         }
@@ -78,17 +78,17 @@ export default class LevelGenerator {
         return this.targetScore + Math.round(Math.random() * 10 + 20)
     }
 
-    private _checkDifficultyUpdate(): void {
+    private checkDifficultyUpdate(): void {
         if(this.game.score >= this.targetScore) {
             console.log('update dificulty')
             this.difficulty++
-            this.targetScore = this._calculateNextTargetScore()
+            this.targetScore = this.calculateNextTargetScore()
             this.colorManager.changeColor()
         }
     }
 
     public update(): void {
-        this._checkDifficultyUpdate()
+        this.checkDifficultyUpdate()
 
         //TODO: Implement spawn based on dificulty 
         let roundedTime = Math.floor(this.timer.getElapsedTime())
