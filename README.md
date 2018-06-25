@@ -1,6 +1,6 @@
 # Dodge
-Move around using a mouse or trackpad. 
-Press space to pause the game. 
+Move around using a mouse, trackpad or your tumb. 
+Press space or swipe up to (un)pause the game. 
 
 play: [dodge.imanidap.nl](https://dodge.imanidap.nl)
 
@@ -287,9 +287,11 @@ Because of the chrome update I wanted to make sure at least one interaction take
 therefore the main theme song doesn't start playing until you've actually started the game. 
 The audio at the Game Over screen is the toned down version of the main theme song. It keeps a player in the flow of the game yet let's them know less is happening right now. Every time you reach a new 'level' a level up sound effect plays.
 
-### The game has a pausemenu with settings
+### The game has a pause menu with settings
 By pressing space the game will be paused. The menu that appears allows you to turn of the music and/or sound effects. 
 
+### The game works on mobile devices without virtual buttons
+Hammerjs allowed me to recognize certain gestures within touch events. When you are on mobile you can tab to start, swipe up to pause or play again and just move your tumb across the screen to play. No virtual buttons. 
 
 
 ## Contributers 

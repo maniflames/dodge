@@ -5,10 +5,12 @@ import GameObject from './GameObject'
 export default class Player extends GameObject {
     private mouse: THREE.Vector2 = new THREE.Vector2()
     private trackCb = (e: MouseEvent) => { this.traceMouse(e) }
+    private touch: HammerManager = new Hammer(document.body) 
     
     constructor() {
         super(new THREE.BoxGeometry(1.5, 1.5, 1.5), new THREE.MeshBasicMaterial({ color: 0x9cb3d8 }))
         this.mesh.position.z = this.game.camera.position.z - 10
+        this.touch.get('pan').set({ direction: Hammer.DIRECTION_VERTICAL });
         this.addMouseTracking()
     }
 
@@ -17,14 +19,19 @@ export default class Player extends GameObject {
     //This would mean I have to implement collision between the player & the tunnel
     //Current calculations make it impossible to reach the tunnel in the first place
     //https://github.com/mrdoob/three.js/issues/1239
-    private traceMouse(e: MouseEvent): void {
+    private traceMouse(e: MouseEvent | HammerInput): void {
         //normalized mouse coordinates
         //returns number between -1 & 1 representing position on screen 
         //where 0,0 is the center
         //https://threejs.org/docs/#api/core/Raycaster
-        this.mouse.x = (e.x / window.innerWidth) * 2 - 1
-        this.mouse.y = - (e.y / window.innerHeight) * 2 + 1
-
+        if(e instanceof MouseEvent) {
+            this.mouse.x = (e.x / window.innerWidth) * 2 - 1
+            this.mouse.y = - (e.y / window.innerHeight) * 2 + 1
+        } else {
+            this.mouse.x = (e.center.x / window.innerWidth) * 2 - 1
+            this.mouse.y = - (e.center.y / window.innerHeight) * 2 + 1
+        }
+        
         //the whole positioning of the game is based on the tunnel which has a radius of 10
         //the edges (y) of the tunnel on the current z index of the player are not 100% on screen 
         //the visibility of edges (x) of the tunnel depends on the width of the screen
@@ -48,11 +55,12 @@ export default class Player extends GameObject {
             worldXEdge = 2
         } else if (window.innerWidth <= 400 && window.innerWidth > 299) {
             worldXEdge = 1.5
-        } else if (window.innerWidth < 300) {
-            //TODO: 
-            //device not supported, screen too small
-            //exit game
-        }
+        } 
+        // else if (window.innerWidth < 300) {
+        //     //TODO: 
+        //     //device not supported, screen too small
+        //     //exit game
+        // }
 
         this.mesh.position.x = this.mouse.x * worldXEdge
         this.mesh.position.y = this.mouse.y * worldYEdge
@@ -60,10 +68,12 @@ export default class Player extends GameObject {
 
     public addMouseTracking(): void {
         document.addEventListener('mousemove', this.trackCb)
+        this.touch.on('pan', (e) => { this.traceMouse(e) })
     }
 
     public removeMouseTracking(): void {
         document.removeEventListener('mousemove', this.trackCb)
+        this.touch.remove('pan')
     }
 
     public remove(): void {
