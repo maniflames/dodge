@@ -1,5 +1,6 @@
 # Dodge
-The rules are simple: dodge unless you don't have to ...
+Move around using a mouse or trackpad. 
+Press space to pause the game. 
 
 play: [dodge.imanidap.nl](https://dodge.imanidap.nl)
 
@@ -271,12 +272,25 @@ The coolest thing about this course is that you are allowed to make anything you
 ### Canvas 
 Even though I do use DOM elements for creating the menu UI, the actual game is build inside of a canvas. 
 
-### External library: Three.js
+### External library: Three.js & Howler.js
 This game is built with Three.js, an external library that makes it easier to work with WebGL. 
+I know Three.js has it's own audioloader but I feel really comfortable using howler at the moment. 
 
 ### The game has levels with increasing difficulty
 This infinite runner gets harder over time. Every time you have 'passed' a level the color of the game will change and the speed will increase.
 The difficulty of the game is managed by ```LevelGenerator``` and is set up in such a way that this keeps happening until you die.
+
+### The game has interactive sound and music
+Most audio related code is in ```AudioManager```
+Only ```GamePlayInit```, ```GameOver``` & ```LevelManager``` play sound though the AudioManager. 
+Because of the chrome update I wanted to make sure at least one interaction takes place before playing the sound, 
+therefore the main theme song doesn't start playing until you've actually started the game. 
+The audio at the Game Over screen is the toned down version of the main theme song. It keeps a player in the flow of the game yet let's them know less is happening right now. Every time you reach a new 'level' a level up sound effect plays.
+
+### The game has a pausemenu with settings
+By pressing space the game will be paused. The menu that appears allows you to turn of the music and/or sound effects. 
+
+
 
 ## Contributers 
 Thank you for the pull request [@sven-zo](https://github.com/sven-zo)! 🎉

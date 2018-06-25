@@ -9,7 +9,10 @@ export default class GameOver implements GameState {
     private clickCb = (e : MouseEvent) => { this.clickHandler(e) }
 
     constructor() {
-        if(this.game.scoreDisplay){
+        this.game.audioManager.stop('main')
+        this.game.audioManager.play('gameover')
+
+        if(this.game.scoreDisplay) {
             this.game.scoreDisplay.remove()
         }
 
@@ -35,6 +38,7 @@ export default class GameOver implements GameState {
                 this.game.screen.remove()
             }
 
+            this.game.audioManager.stop('gameover')
             this.game.gameStateManager.state = new GamePlayInit()
         }
     }

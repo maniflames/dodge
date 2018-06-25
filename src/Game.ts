@@ -4,6 +4,7 @@ import Screen from './UI/Screen'
 import ScoreDisplay from './UI/ScoreDisplay'
 import GameStateManager from './GameStates/GameStateManager'
 import Score from './Score'
+import AudioManager from './AudioManagement/AudioManager'
 
 export default class Game {
     private static _object: Game
@@ -15,8 +16,8 @@ export default class Game {
     private _score: Score = new Score
     private _screen: Screen | null = null
     private _scoreDisplay: ScoreDisplay | null = null
-
-
+    private _audioManager: AudioManager = AudioManager.getManager();
+    
     public get score(): number {
         return this._score.total
     }
@@ -58,6 +59,10 @@ export default class Game {
 
     public get scene(): THREE.Scene {
         return this._scene;
+    }
+
+    public get audioManager(): AudioManager {
+        return this._audioManager;
     }
 
     private constructor() {

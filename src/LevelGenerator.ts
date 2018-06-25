@@ -8,10 +8,11 @@ import IColorManager from './ColorManagement/IColorManager'
 import ColorManager from './ColorManagement/ColorManager'
 import ISpeedManager from './SpeedManagement/ISpeedManager'
 import SpeedManager from './SpeedManagement/SpeedManager'
+import AudioManager from './AudioManagement/AudioManager';
 
 export default class LevelGenerator {
     private static object: LevelGenerator
-    private difficulty: number
+    private _difficulty: number
     private targetScore: number
     private timer: THREE.Clock = new THREE.Clock(false)
     private timeHistory: number = 0
@@ -20,7 +21,7 @@ export default class LevelGenerator {
     private speedManager: ISpeedManager = SpeedManager.getManager()
 
     private constructor(difficulty: number) {
-        this.difficulty = difficulty
+        this._difficulty = difficulty
         this.targetScore = this.calculateNextTargetScore()
         this.timer.start()
     }
@@ -81,12 +82,11 @@ export default class LevelGenerator {
 
     private checkDifficultyUpdate(): void {
         if (this.game.score >= this.targetScore) {
-            console.log('update dificulty')
-            this.difficulty++
+            this._difficulty++
             this.targetScore = this.calculateNextTargetScore()
             this.colorManager.changeColor()
             this.speedManager.changeSpeed(this.speedManager.speed + 0.3)
-            console.log(this.speedManager.speed)
+            AudioManager.getManager().play('levelup')  
         }
     }
 

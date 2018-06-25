@@ -5,6 +5,7 @@ import Player from "../GameObjects/Player"
 import GamePlay from "./GamePlay"
 import ColorManager from "../ColorManagement/ColorManager"
 import GameState from "./GameState"
+import SpeedManager from "../SpeedManagement/SpeedManager";
 
 export default class GamePlayInit implements GameState {
     private game: Game = Game.getGame()
@@ -17,6 +18,8 @@ export default class GamePlayInit implements GameState {
         this.colorManager.subscribe(tunnel)
         this.game.addGameObject(tunnel)
         this.game.addGameObject(new Player())
+        this.game.audioManager.play('main')
+        SpeedManager.getManager().changeSpeed(1)
         this.done = true
     }
 

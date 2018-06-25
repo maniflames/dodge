@@ -1,11 +1,17 @@
 body {
     overflow: hidden;
+    cursor: none;
 }
 
 canvas {
     position: absolute;
     top: 0; 
     left: 0;
+    cursor: none;
+}
+
+h1 {
+    color: #ffffff; 
 }
 
 .screen {
@@ -17,8 +23,8 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center; 
-    background: #000000; 
-    opacity: 0.4;
+    flex-direction: column;
+    cursor: default;
 }
 
 .btn {
@@ -27,11 +33,57 @@ canvas {
     border-radius: 5px;
 }
 
+.btn,
+li.music,
+li.sfx {
+    cursor: pointer;
+}
+
 .display {
     position: absolute;
     top: 10px;
     left: 10px;
-    color: white;
+    color: #ffffff;
     font-size: 2em;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    font-size: 1.8em;
+    padding: 0;
+}
+
+li.music::after {
+    color: #ffffff;
+    content: "\f001";
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin: 10px;
+}
+
+li.music.disabled::after {
+    color: #ffffff;
+    content: "\f00d";
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin: 10px;
+}
+
+li.sfx::before {
+    color: #ffffff;
+    content: "\f028";
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin: 10px;
+}
+
+li.sfx.disabled::before {
+    color: #ffffff;
+    content: "\f00d";
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin: 10px;
 }

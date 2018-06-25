@@ -11,6 +11,7 @@ import IColorManager from '../ColorManagement/IColorManager'
 import ISpeedManager from '../SpeedManagement/ISpeedManager'
 import SpeedManager from '../SpeedManagement/SpeedManager'
 
+
 export default class GamePlay implements GameState {
     private game: Game = Game.getGame()
     private levelGenerator: LevelGenerator = LevelGenerator.getGenerator() 
