@@ -18,9 +18,11 @@ export default class GamePlay implements GameState {
     private colorManager: IColorManager = ColorManager.getManager()
     private speedManager: ISpeedManager = SpeedManager.getManager()
     private pauseKeyCb = (e: KeyboardEvent) => { this.pauseKeyHandler(e) }
+    private touch: HammerManager = new Hammer(document.body) 
 
     constructor() {
         document.addEventListener('keydown', this.pauseKeyCb)
+        this.touch.on('swipeup', (e) => { this.pauseKeyHandler(e) })
     }
 
     public update():void {
@@ -72,11 +74,13 @@ export default class GamePlay implements GameState {
         return false
     }
 
-    private pauseKeyHandler(e: KeyboardEvent): void {
-        if(e.key != ' '){
-            return
+    private pauseKeyHandler(e: KeyboardEvent | HammerInput ): void {
+        if(e instanceof KeyboardEvent) {
+            if(e.key != ' '){
+                return
+            }
         }
-
+    
         for(let player of this.game.gameObjects) {
             if(player instanceof Player) {
                 player.removeMouseTracking()
@@ -84,6 +88,7 @@ export default class GamePlay implements GameState {
         }
 
         document.removeEventListener('keydown', this.pauseKeyCb)
+        this.touch.off('swipeup')
         this.game.gameStateManager.state = new GamePause(); 
     }
 }

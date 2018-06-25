@@ -10,10 +10,12 @@ export default class GamePause implements GameState {
     private clickCb = (e: MouseEvent) => { this.clickHandler(e) }
     private game: Game = Game.getGame()
     private audioManager: AudioManager = AudioManager.getManager()
+    private touch: HammerManager = new Hammer(document.body)
 
     constructor() {
         document.addEventListener('keydown', this.pauseKeyCb)
         document.addEventListener('click', this.clickCb)
+        this.touch.on('swipeup', (e) => { this.pauseKeyHandler(e) })
         this.game.screen = new PauseScreen()
     }
 
@@ -27,13 +29,16 @@ export default class GamePause implements GameState {
         }
     }
 
-    private pauseKeyHandler(e: KeyboardEvent): void {
-        if(e.key != ' ') {
-            return
+    private pauseKeyHandler(e: KeyboardEvent | HammerInput): void {
+        if(e instanceof KeyboardEvent){
+            if(e.key != ' ') {
+                return
+            }
         }
-
+        
         document.removeEventListener('keydown', this.pauseKeyCb)
         document.removeEventListener('click', this.clickCb)
+        this.touch.off('swipeup')
         
         if(this.game.screen) {
             this.game.screen.remove()
