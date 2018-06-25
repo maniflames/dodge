@@ -15,15 +15,13 @@ export default class GameInit implements GameState {
     public update(): void { }
 
     private clickHandler(e: MouseEvent): void {
-        let target = e.target as HTMLElement
 
-        if(target.nodeName === 'BUTTON') {
-            window.removeEventListener('click', this.clickCb)
-            if(this.game.screen) {
-                this.game.screen.remove()
-            } 
+        window.removeEventListener('click', this.clickCb)
+        if(this.game.screen) {
+            this.game.screen.remove()
+        } 
 
-            this.game.gameStateManager.state = new GamePlayInit()
-        }
+        this.game.gameStateManager.state = new GamePlayInit()
+        
     }
 }

@@ -20,6 +20,7 @@ export default class GamePlayInit implements GameState {
         this.game.addGameObject(new Player())
         this.game.audioManager.play('main')
         SpeedManager.getManager().changeSpeed(1)
+        this.game.score = 0
         this.done = true
     }
 

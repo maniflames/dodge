@@ -4,7 +4,15 @@ import Screen from './Screen'
 export default class StartScreen extends Screen {
     constructor() {
         super()
-        this.addBtn('play')
+        let title = document.createElement('h1')
+        title.innerHTML = 'dodge'
+
+        let instruction = document.createElement('h3')
+        instruction.classList.add('blink')
+        instruction.innerHTML = 'tap anywhere to start'
+
+        this.domElement.appendChild(title)
+        this.domElement.appendChild(instruction)
     }
 
     public remove(): void {

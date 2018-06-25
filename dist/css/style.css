@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 body {
+    font-family: 'Press Start 2P', cursive;
     overflow: hidden;
     cursor: none;
 }
@@ -10,8 +13,21 @@ canvas {
     cursor: none;
 }
 
-h1 {
+h1, h3 {
     color: #ffffff; 
+    text-transform: uppercase;
+}
+
+.blink {
+    animation-name: blinking;
+    animation-duration: 1.8s;
+    animation-iteration-count: infinite; 
+}
+
+@keyframes blinking {
+    50% { 
+        opacity: 0;
+    }
 }
 
 .screen {
@@ -28,15 +44,20 @@ h1 {
 }
 
 .btn {
-    width: 100px;
-    height: 40px;
-    border-radius: 5px;
+    background: #000;
+    border: none;
+    color: white;
+    font-family: inherit;
+    padding: 20px;
+    font-size: 1em; 
 }
 
 .btn,
 li.music,
 li.sfx {
     cursor: pointer;
+    /* font-smooth: never; */
+    -webkit-font-smoothing : none;
 }
 
 .display {
@@ -45,7 +66,7 @@ li.sfx {
     left: 10px;
     color: #ffffff;
     font-size: 2em;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px; 
 }
 
 ul {

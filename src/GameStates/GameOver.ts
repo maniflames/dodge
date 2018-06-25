@@ -23,23 +23,20 @@ export default class GameOver implements GameState {
             }
         }
 
-        this.game.screen = new EndScreen()
+        this.game.screen = new EndScreen(this.game.score)
         window.addEventListener('click', this.clickCb)
     }
 
     public update(): void { }
 
     private clickHandler(e : MouseEvent) {
-        let target = e.target as HTMLElement
 
-        if(target.nodeName === 'BUTTON'){
-            window.removeEventListener('click', this.clickCb)
-            if(this.game.screen){
-                this.game.screen.remove()
-            }
-
-            this.game.audioManager.stop('gameover')
-            this.game.gameStateManager.state = new GamePlayInit()
+        window.removeEventListener('click', this.clickCb)
+        if(this.game.screen){
+            this.game.screen.remove()
         }
+        this.game.audioManager.stop('gameover')
+        this.game.gameStateManager.state = new GamePlayInit()
+        
     }
 }
