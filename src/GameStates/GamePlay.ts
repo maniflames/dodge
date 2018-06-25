@@ -22,6 +22,7 @@ export default class GamePlay implements GameState {
 
     constructor() {
         document.addEventListener('keydown', this.pauseKeyCb)
+        this.touch.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
         this.touch.on('swipeup', (e) => { this.pauseKeyHandler(e) })
     }
 

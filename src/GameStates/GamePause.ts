@@ -15,6 +15,7 @@ export default class GamePause implements GameState {
     constructor() {
         document.addEventListener('keydown', this.pauseKeyCb)
         document.addEventListener('click', this.clickCb)
+        this.touch.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
         this.touch.on('swipeup', (e) => { this.pauseKeyHandler(e) })
         this.game.screen = new PauseScreen()
     }
